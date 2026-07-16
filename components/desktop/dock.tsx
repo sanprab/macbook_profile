@@ -116,7 +116,7 @@ export function Dock({
   // Calculate which apps should currently be in the dock
   const currentAppsToShow = APPS.filter((app) => {
     const showByDefault = app.showOnDockByDefault !== false;
-    return showByDefault || hasOpenWindows(app.id);
+    return showByDefault || (app.showOnDockWhenOpen !== false && hasOpenWindows(app.id));
   }).map((app) => app.id);
 
   // Serialize for stable dependency comparison

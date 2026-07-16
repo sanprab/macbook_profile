@@ -507,11 +507,6 @@ export function NotificationCenter({
           <p className="text-2xl font-bold">{monthDay}</p>
         </div>
         <CalendarWidget onActivate={onClose} refreshKey={openRefreshKey} />
-        <MessagesWidget
-          onActivate={onClose}
-          refreshKey={openRefreshKey}
-          onOpenConversation={onOpenMessagesConversation}
-        />
         <PhotosWidget photos={photos} loading={photosLoading} onActivate={onClose} />
         <WeatherWidget weather={weather} loading={weatherLoading} onActivate={onClose} />
       </ScrollArea>

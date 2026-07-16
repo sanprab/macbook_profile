@@ -18,6 +18,7 @@ export interface AppConfig {
   minSize: Size;
   menuBarTitle: string;
   showOnDockByDefault?: boolean; // defaults to true if not specified
+  showOnDockWhenOpen?: boolean; // defaults to true if not specified
   showInFinderApplications?: boolean; // defaults to true if not specified
   mobile?: AppMobilePolicy;
   multiWindow?: boolean; // defaults to false - allows multiple windows per app

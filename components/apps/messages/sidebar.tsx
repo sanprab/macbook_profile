@@ -103,6 +103,10 @@ export function Sidebar({
   }), [conversations]);
 
   const filteredConversations = useMemo(() => sortedConversations.filter((conversation) => {
+    if (conversation.recipients.some((recipient) => recipient.name === "Brian Chesky")) {
+      return false;
+    }
+
     if (!searchTerm) return true;
 
     // Search in non-system messages content only
