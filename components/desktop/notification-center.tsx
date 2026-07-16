@@ -496,7 +496,7 @@ export function NotificationCenter({
   return (
     <div
       ref={menuRef}
-      className="absolute top-7 right-0 w-80 rounded-lg bg-white/95 dark:bg-zinc-800/95 backdrop-blur-xl shadow-2xl border border-muted-foreground/20 p-2 z-[70] max-h-[calc(100vh-3rem)]"
+      className="absolute top-8 right-0 w-80 rounded-lg bg-white/95 dark:bg-zinc-800/95 backdrop-blur-xl shadow-2xl border border-muted-foreground/20 p-2 z-[70] max-h-[calc(100vh-3rem)]"
     >
       <ScrollArea className="h-full">
         {/* Date Header */}

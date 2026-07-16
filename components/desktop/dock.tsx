@@ -43,10 +43,10 @@ const DOCK_DEFAULT_SCALE = 1;
 const DOCK_SCALE_STEP = 0.05;
 const DOCK_DRAG_PIXELS_PER_SCALE = 220;
 
-const BASE_ICON_SIZE = 48;
-const BASE_GAP = 4;
-const BASE_PADDING_X = 12;
-const BASE_PADDING_Y = 6;
+const BASE_ICON_SIZE = 40;
+const BASE_GAP = 2;
+const BASE_PADDING_X = 6;
+const BASE_PADDING_Y = 5;
 const BASE_DIVIDER_WIDTH = 1;
 const BASE_DIVIDER_MARGIN_X = 4;
 const BASE_DIVIDER_HEIGHT = 48;
@@ -57,6 +57,7 @@ const BASE_BADGE_PADDING_X = 4;
 const BASE_BADGE_FONT_SIZE = 11;
 const BASE_TRASH_HANDLE_HITBOX_WIDTH = 14;
 const BASE_HANDLE_LINE_WIDTH = 1;
+const STATIC_APP_ICON_SCALE = 0.88;
 
 function clamp(value: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, value));
@@ -247,6 +248,10 @@ export function Dock({
 
   const handleAppClick = (appId: string) => {
     const app = getAppById(appId);
+
+    if (app?.dockStatic) {
+      return;
+    }
 
     if (app?.externalUrl) {
       window.open(app.externalUrl, "_blank", "noopener,noreferrer");
@@ -458,6 +463,11 @@ export function Dock({
       >
         {appsToRender.map((app) => {
           const isOpen = hasOpenWindows(app.id);
+          const isStaticDockItem = app.dockStatic === true;
+          const iconSize = isStaticDockItem
+            ? Math.round(metrics.icon * STATIC_APP_ICON_SCALE * (app.dockIconScale ?? 1))
+            : metrics.icon;
+          const usesWhiteIconTile = app.id === "google-chrome" || app.id === "notion";
           const animState = animationStates[app.id] || "stable";
           const badgeCount = appBadges[app.id] ?? 0;
 
@@ -465,13 +475,15 @@ export function Dock({
             <button
               key={app.id}
               onClick={() => handleAppClick(app.id)}
+              aria-disabled={isStaticDockItem}
               onMouseEnter={() => setHoveredApp(app.id)}
               onMouseLeave={() => setHoveredApp(null)}
               className={cn(
                 "group relative flex flex-col items-center outline-none transition-all duration-300 flex-shrink-0",
                 animState === "entering" && "animate-dock-enter",
                 animState === "exiting" && "animate-dock-exit",
-                animState === "stable" && "can-hover:hover:scale-110 active:scale-95"
+                animState === "stable" && "can-hover:hover:scale-110",
+                !isStaticDockItem && "active:scale-95"
               )}
             >
               {hoveredApp === app.id && animState === "stable" && !isResizingDock && (
@@ -483,13 +495,33 @@ export function Dock({
               >
                 {app.id === "calendar" ? (
                   <CalendarDockIcon size={Math.round(metrics.icon * 0.79)} />
+                ) : usesWhiteIconTile ? (
+                  <div
+                    className="flex items-center justify-center rounded-[22%] bg-white p-[8%] [filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.35))]"
+                    style={{ width: `${iconSize}px`, height: `${iconSize}px` }}
+                  >
+                    <Image
+                      src={app.icon}
+                      alt={app.name}
+                      width={iconSize}
+                      height={iconSize}
+                      className="pointer-events-none h-full w-full rounded-[17%] object-contain"
+                      draggable={false}
+                      unoptimized
+                    />
+                  </div>
                 ) : (
                   <Image
                     src={app.icon}
                     alt={app.name}
-                    width={metrics.icon}
-                    height={metrics.icon}
-                    className="object-contain [filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.35))] pointer-events-none"
+                    width={iconSize}
+                    height={iconSize}
+                    className={cn(
+                      "[filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.35))] pointer-events-none",
+                      isStaticDockItem
+                        ? "rounded-[22%] object-cover"
+                        : "object-contain"
+                    )}
                     draggable={false}
                     unoptimized
                   />

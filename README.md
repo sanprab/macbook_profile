@@ -9,7 +9,7 @@ i'm obsessed with re-creating apple products. this is a macos-inspired personal 
 a macos sierra 10.12 themed desktop with:
 - **window management**: draggable, resizable windows with minimize, maximize, and close
 - **dock**: app launcher with hover tooltips
-- **github launcher**: opens [@sanprab](https://github.com/sanprab) in a new tab
+- **dock shortcuts**: GitHub opens [@sanprab](https://github.com/sanprab) in a new tab; Chrome, Notion, Sublime Text, Codex, Claude Code, Maps, and Copilot Money are display-only icons
 - **menu bar**: functional apple menu, file menu, app menu, status menus (wifi, bluetooth, control center), and notification center with live widgets (calendar, messages, weather, photos)
 - **system states**: lock screen, sleep mode, restart, and shutdown overlays
 

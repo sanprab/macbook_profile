@@ -229,7 +229,8 @@ export function FinderApp({
   const getInitialPath = (): string => {
     if (initialPath) return initialPath;
     if (!inShell) {
-      return loadFinderPath() || "recents";
+      const savedPath = loadFinderPath();
+      return savedPath?.replace(/^\/Users\/sanjivgoyal(?=\/|$)/, HOME_DIR) || "recents";
     }
     return "recents";
   };

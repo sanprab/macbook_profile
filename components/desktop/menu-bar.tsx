@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faApple } from "@fortawesome/free-brands-svg-icons";
 import { faWifi, faBatteryFull, faSliders } from "@fortawesome/free-solid-svg-icons";
 import type { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { Bluetooth, Moon, MoonStar, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AppleMenu } from "./apple-menu";
 import { BatteryMenu, WifiMenu, ControlCenterMenu } from "./status-menus";
@@ -15,8 +16,18 @@ import { AppMenu } from "./app-menu";
 import { FileMenu } from "./file-menu";
 import { AboutDialog } from "./about-dialog";
 import { useFileMenuActions } from "@/lib/file-menu-context";
+import { useSystemSettings } from "@/lib/system-settings-context";
 
 type OpenMenu = "apple" | "appMenu" | "fileMenu" | "battery" | "wifi" | "controlCenter" | "notificationCenter" | null;
+
+function SystemMetric({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex h-8 flex-col justify-center text-[9px] font-medium leading-none text-black/80 dark:text-white/80">
+      <span className="leading-none">{label}</span>
+      <span className="text-xs font-semibold leading-none">{value}</span>
+    </div>
+  );
+}
 
 interface MenuBarProps {
   onOpenSettings?: () => void;
@@ -43,6 +54,7 @@ export function MenuBar({
 }: MenuBarProps) {
   const fileMenuActions = useFileMenuActions();
   const { getFocusedAppId, closeApp, state, setMenuOpen } = useWindowManager();
+  const { focusMode } = useSystemSettings();
   const [currentTime, setCurrentTime] = useState<string>("");
   const [openMenu, setOpenMenu] = useState<OpenMenu>(null);
   const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
@@ -108,12 +120,12 @@ export function MenuBar({
   const closeMenu = useCallback(() => setOpenMenu(null), []);
 
   return (
-    <div className="fixed top-0 left-0 right-0 h-7 bg-white/20 dark:bg-black/20 backdrop-blur-md border-b border-white/10 flex items-center justify-between px-4 z-[70] select-none">
-      <div className="flex items-center gap-4">
+    <div className="fixed top-0 left-0 right-0 h-8 bg-white/20 dark:bg-black/20 backdrop-blur-md border-b border-white/10 flex items-center justify-between px-4 z-[70] select-none">
+      <div className="flex items-center gap-2">
         <button
           onClick={() => toggleMenu("apple")}
           className={cn(
-            "flex items-center justify-center w-6 h-5 -ml-1 rounded transition-colors",
+            "flex items-center justify-center w-8 h-7 -ml-1 rounded transition-colors",
             openMenu === "apple" ? "bg-blue-500" : "can-hover:hover:bg-white/10"
           )}
         >
@@ -128,7 +140,7 @@ export function MenuBar({
         <button
           onClick={() => toggleMenu("appMenu")}
           className={cn(
-            "text-sm font-semibold px-2 py-0.5 rounded transition-colors",
+            "text-sm font-semibold px-1.5 py-1 rounded transition-colors",
             openMenu === "appMenu"
               ? "bg-blue-500 text-white"
               : "text-black dark:text-white can-hover:hover:bg-white/10"
@@ -140,7 +152,7 @@ export function MenuBar({
           <button
             onClick={() => toggleMenu("fileMenu")}
             className={cn(
-              "text-sm px-2 py-0.5 rounded transition-colors",
+                "text-sm px-1.5 py-1 rounded transition-colors",
               openMenu === "fileMenu"
                 ? "bg-blue-500 text-white"
                 : "text-black dark:text-white can-hover:hover:bg-white/10"
@@ -151,34 +163,69 @@ export function MenuBar({
         )}
       </div>
 
-      <div className="flex items-center gap-1">
-        {/* Battery */}
-        <button
-          onClick={() => toggleMenu("battery")}
+      <div className="flex items-center gap-2">
+        <div className="mr-1 hidden shrink-0 items-center gap-5 lg:flex">
+          <SystemMetric label="CPU" value="5%" />
+          <SystemMetric label="RAM" value="69%" />
+          <SystemMetric label="SSD" value="13%" />
+          <SystemMetric label="Sensor" value="6W" />
+          <div className="flex h-8 flex-col justify-center text-xs font-semibold leading-none text-black/80 dark:text-white/80">
+            <span>●</span>
+            <span>●</span>
+          </div>
+          <div className="flex h-8 flex-col justify-center whitespace-nowrap text-[9px] leading-none text-black/80 dark:text-white/80">
+            <span>0 KB/s</span>
+            <span>0 KB/s</span>
+          </div>
+        </div>
+
+        <div className="hidden items-center gap-1 px-1 text-sm font-semibold text-black dark:text-white lg:flex">
+          <MoonStar className="h-4 w-4" strokeWidth={2.25} />
+          <span>61°F</span>
+        </div>
+
+        <Bluetooth className="hidden h-4 w-4 text-black dark:text-white lg:block" />
+
+        <div
+          aria-label="Focus"
           className={cn(
-            "flex items-center justify-center w-7 h-5 rounded transition-colors",
-            openMenu === "battery" ? "bg-white/30 dark:bg-white/20" : "can-hover:hover:bg-white/10"
+            "flex h-8 w-8 items-center justify-center rounded",
+            focusMode === "off" ? "" : "bg-white/30 dark:bg-white/20"
           )}
         >
-          <FontAwesomeIcon icon={faBatteryFull} className="w-5 h-3.5 text-black dark:text-white" />
-        </button>
+          <Moon className="h-4 w-4 fill-current text-black dark:text-white" />
+        </div>
 
         {/* Wi-Fi */}
         <button
           onClick={() => toggleMenu("wifi")}
           className={cn(
-            "flex items-center justify-center w-7 h-5 rounded transition-colors",
+            "flex items-center justify-center w-8 h-7 rounded transition-colors",
             openMenu === "wifi" ? "bg-white/30 dark:bg-white/20" : "can-hover:hover:bg-white/10"
           )}
         >
           <FontAwesomeIcon icon={faWifi} className="w-4 h-4 text-black dark:text-white" />
         </button>
 
+        {/* Battery */}
+        <button
+          onClick={() => toggleMenu("battery")}
+          className={cn(
+            "flex h-7 items-center justify-center gap-1 rounded px-1.5 transition-colors",
+            openMenu === "battery" ? "bg-white/30 dark:bg-white/20" : "can-hover:hover:bg-white/10"
+          )}
+        >
+          <span className="hidden whitespace-nowrap text-xs font-semibold text-black dark:text-white lg:inline">97%</span>
+          <FontAwesomeIcon icon={faBatteryFull} className="w-5 h-3 text-black dark:text-white" />
+        </button>
+
+        <Search className="hidden h-4 w-4 text-black dark:text-white lg:block" />
+
         {/* Control Center */}
         <button
           onClick={() => toggleMenu("controlCenter")}
           className={cn(
-            "flex items-center justify-center w-7 h-5 rounded transition-colors",
+            "flex items-center justify-center w-8 h-7 rounded transition-colors",
             openMenu === "controlCenter" ? "bg-white/30 dark:bg-white/20" : "can-hover:hover:bg-white/10"
           )}
         >
@@ -189,7 +236,7 @@ export function MenuBar({
         <button
           onClick={() => toggleMenu("notificationCenter")}
           className={cn(
-            "text-sm px-2 py-0.5 rounded transition-colors ml-1",
+            "whitespace-nowrap text-sm px-2 py-1 rounded transition-colors ml-1",
             openMenu === "notificationCenter"
               ? "bg-white/30 dark:bg-white/20"
               : "can-hover:hover:bg-white/10",

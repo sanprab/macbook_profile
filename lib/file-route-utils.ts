@@ -1,4 +1,4 @@
-export const HOME_DIR = "/Users/sanjivgoyal";
+export const HOME_DIR = "/Users/sanjiv";
 export const PROJECTS_DIR = `${HOME_DIR}/Projects`;
 
 export type DocumentAppId = "textedit" | "preview";

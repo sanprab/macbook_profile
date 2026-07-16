@@ -32,7 +32,7 @@ export function AppMenu({
   return (
     <div
       ref={menuRef}
-      className="absolute top-7 left-[68px] w-56 rounded-lg bg-white/95 dark:bg-zinc-800/95 backdrop-blur-xl shadow-2xl border border-black/10 dark:border-white/10 py-1 z-[70] overflow-hidden"
+      className="absolute top-8 left-[52px] w-56 rounded-lg bg-white/95 dark:bg-zinc-800/95 backdrop-blur-xl shadow-2xl border border-black/10 dark:border-white/10 py-1 z-[70] overflow-hidden"
     >
       <MenuItem
         icon={<Info className="w-4 h-4" />}
