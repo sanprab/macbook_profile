@@ -20,6 +20,7 @@ export interface AppConfig {
   showOnDockByDefault?: boolean; // defaults to true if not specified
   showOnDockWhenOpen?: boolean; // defaults to true if not specified
   showInFinderApplications?: boolean; // defaults to true if not specified
+  externalUrl?: string; // opens an external destination instead of an app window
   mobile?: AppMobilePolicy;
   multiWindow?: boolean; // defaults to false - allows multiple windows per app
   cascadeOffset?: number; // offset for cascading new windows (default 30)

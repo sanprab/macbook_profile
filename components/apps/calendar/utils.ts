@@ -375,7 +375,7 @@ export function formatWeekDayHeader(date: Date): string {
   return format(date, "EEE d");
 }
 
-// Event helpers - merges user events with on-demand generated sample events and holidays
+// Event helpers - returns only user-created events.
 export function getEventsForDay(
   userEvents: CalendarEvent[],
   day: Date
@@ -389,11 +389,7 @@ export function getEventsForDay(
     return dayStr >= eventStart && dayStr <= eventEnd;
   });
 
-  // Generate sample events and holidays on-demand
-  const sampleEvents = generateSampleEventsForDay(day);
-  const holidays = getHolidaysForDay(day);
-
-  return [...holidays, ...sampleEvents, ...userEventsForDay];
+  return userEventsForDay;
 }
 
 export function getEventsForDateRange(

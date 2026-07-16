@@ -106,12 +106,19 @@ function saveScrollPosition(scrollTop: number): void {
 
 // User events storage key
 const USER_EVENTS_KEY = "calendar-user-events";
+const CALENDAR_RESET_KEY = "calendar-events-reset-v1";
 
 // Load user-created events from localStorage
 function loadUserEvents(): CalendarEvent[] {
   if (typeof window === "undefined") return [];
 
   try {
+    if (localStorage.getItem(CALENDAR_RESET_KEY) !== "true") {
+      localStorage.removeItem(USER_EVENTS_KEY);
+      localStorage.setItem(CALENDAR_RESET_KEY, "true");
+      return [];
+    }
+
     const stored = localStorage.getItem(USER_EVENTS_KEY);
     if (stored) {
       const parsed = JSON.parse(stored);

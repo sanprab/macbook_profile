@@ -9,6 +9,7 @@ i'm obsessed with re-creating apple products. this is a macos-inspired personal 
 a macos sierra 10.12 themed desktop with:
 - **window management**: draggable, resizable windows with minimize, maximize, and close
 - **dock**: app launcher with hover tooltips
+- **github launcher**: opens [@sanprab](https://github.com/sanprab) in a new tab
 - **menu bar**: functional apple menu, file menu, app menu, status menus (wifi, bluetooth, control center), and notification center with live widgets (calendar, messages, weather, photos)
 - **system states**: lock screen, sleep mode, restart, and shutdown overlays
 
@@ -54,12 +55,9 @@ a macos sierra 10.12 themed desktop with:
 
 **calendar** - apple calendar clone
 - day, week, month, and year views with smooth navigation
-- sample events: exercise, focus time, meetings, dinners
-- date night saturdays cycling through sf restaurants
 - create, edit, and delete your own events
 - drag-to-create events in day/week views
-- holidays automatically displayed
-- data persisted in localstorage
+- starts empty; events are persisted in localstorage
 
 **photos** - apple photos clone
 - photo library with grid view and full-screen viewer

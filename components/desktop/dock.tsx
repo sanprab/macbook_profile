@@ -246,13 +246,18 @@ export function Dock({
   }, [currentAppsKey, visibleApps]);
 
   const handleAppClick = (appId: string) => {
+    const app = getAppById(appId);
+
+    if (app?.externalUrl) {
+      window.open(app.externalUrl, "_blank", "noopener,noreferrer");
+      return;
+    }
+
     // Special handling for Finder to reset tab to recents
     if (appId === "finder" && onFinderClick) {
       onFinderClick();
       return;
     }
-
-    const app = getAppById(appId);
 
     // For multi-window apps, bring all windows to front
     if (app?.multiWindow) {
