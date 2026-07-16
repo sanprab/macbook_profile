@@ -57,13 +57,13 @@ export function SongsView({ songs, isMobileView }: SongsViewProps) {
                   onClick={() => handleTrackPlay(track)}
                   className={cn(
                     "flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors group overflow-hidden",
-                    isCurrentTrack ? "bg-red-500/10" : "can-hover:hover:bg-muted"
+                    isCurrentTrack ? "bg-[#1ed760]/10" : "can-hover:hover:bg-white/10"
                   )}
                 >
                   <span
                     className={cn(
                       "w-5 text-center text-sm",
-                      isCurrentTrack ? "text-red-500" : "text-muted-foreground"
+                      isCurrentTrack ? "text-[#1ed760]" : "text-muted-foreground"
                     )}
                   >
                     {isPlaying ? (
@@ -88,7 +88,7 @@ export function SongsView({ songs, isMobileView }: SongsViewProps) {
                     <p
                       className={cn(
                         "text-sm font-medium truncate",
-                        isCurrentTrack && "text-red-500"
+                        isCurrentTrack && "text-[#1ed760]"
                       )}
                     >
                       {track.name}

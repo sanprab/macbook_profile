@@ -104,7 +104,7 @@ export function PlaylistView({ playlist, isMobileView }: PlaylistViewProps) {
             <div className="flex items-center gap-3 mt-4">
               <button
                 onClick={handlePlayAll}
-                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-red-500 text-white text-sm font-medium hover:bg-red-600 transition-colors"
+                className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#1ed760] text-black text-sm font-semibold can-hover:hover:bg-[#1fdf64] transition-colors"
               >
                 {isPlayingPlaylist ? (
                   <>
@@ -153,13 +153,13 @@ export function PlaylistView({ playlist, isMobileView }: PlaylistViewProps) {
                   onClick={() => handleTrackPlay(track)}
                   className={cn(
                     "flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors group overflow-hidden",
-                    isCurrentTrack ? "bg-red-500/10" : "can-hover:hover:bg-muted"
+                    isCurrentTrack ? "bg-[#1ed760]/10" : "can-hover:hover:bg-white/10"
                   )}
                 >
                   <span
                     className={cn(
                       "w-5 text-center text-sm",
-                      isCurrentTrack ? "text-red-500" : "text-muted-foreground"
+                      isCurrentTrack ? "text-[#1ed760]" : "text-muted-foreground"
                     )}
                   >
                     {isPlaying ? (
@@ -184,7 +184,7 @@ export function PlaylistView({ playlist, isMobileView }: PlaylistViewProps) {
                     <p
                       className={cn(
                         "text-sm font-medium truncate",
-                        isCurrentTrack && "text-red-500"
+                        isCurrentTrack && "text-[#1ed760]"
                       )}
                     >
                       {track.name}

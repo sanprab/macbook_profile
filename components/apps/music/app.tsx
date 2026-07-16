@@ -10,7 +10,7 @@ import { MusicView } from "./types";
 import { Sidebar } from "./sidebar";
 import { Nav } from "./nav";
 import { NowPlayingBar } from "./now-playing-bar";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, ChevronRight, Search, Bell, UserRound } from "lucide-react";
 import {
   HomeView,
   BrowseView,
@@ -200,9 +200,12 @@ export default function App({ isDesktop = false }: AppProps) {
       data-app="music"
       tabIndex={-1}
       onMouseDown={() => containerRef.current?.focus()}
-      className="music-app h-full flex flex-col bg-background text-foreground outline-none overflow-hidden"
+      className="music-app dark h-full flex flex-col bg-[#121212] text-white outline-none overflow-hidden"
     >
-      <main className="flex-1 flex min-h-0 overflow-hidden">
+      <main className={cn(
+        "flex-1 flex min-h-0 overflow-hidden",
+        !isMobileView && "gap-2 bg-black p-2"
+      )}>
         {/* Sidebar */}
         <div
           className={cn(
@@ -210,7 +213,7 @@ export default function App({ isDesktop = false }: AppProps) {
             showSidebar
               ? isMobileView
                 ? "block w-full"
-                : "block w-[220px] border-r dark:border-foreground/20"
+                : "block w-[300px]"
               : "hidden"
           )}
         >
@@ -234,15 +237,16 @@ export default function App({ isDesktop = false }: AppProps) {
         <div
           className={cn(
             "flex-1 flex flex-col min-h-0 min-w-0 overflow-hidden relative",
+            !isMobileView && "rounded-lg bg-[#121212]",
             showMainContent ? "block" : "hidden"
           )}
         >
           {/* Mobile content header with back button */}
           {isMobileView && (
-            <div className="px-4 py-3 flex items-center gap-3 sticky top-0 z-[1] select-none bg-background">
+            <div className="px-4 py-3 flex items-center gap-3 sticky top-0 z-[1] select-none bg-[#121212]">
               <button
                 onClick={handleBack}
-                className="flex items-center justify-center w-9 h-9 rounded-full bg-muted hover:bg-muted/80 transition-colors"
+                className="flex items-center justify-center w-9 h-9 rounded-full bg-[#282828] can-hover:hover:bg-[#3e3e3e] transition-colors"
               >
                 <ChevronLeft className="w-5 h-5" />
               </button>
@@ -256,12 +260,42 @@ export default function App({ isDesktop = false }: AppProps) {
               )}
             </div>
           )}
-          {/* Draggable header area for content - absolute so it doesn't affect layout */}
+          {/* Spotify-style desktop toolbar */}
           {!isMobileView && (
             <div
-              className="absolute top-0 left-0 right-0 h-12 z-10 select-none"
+              className="relative z-10 flex h-16 shrink-0 items-center justify-between gap-4 px-6 select-none"
               onMouseDown={inShell && windowFocus ? windowFocus.onDragStart : undefined}
-            />
+            >
+              <div className="flex items-center gap-2" onMouseDown={(e) => e.stopPropagation()}>
+                <button
+                  aria-label="Back"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white/70 can-hover:hover:text-white"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  aria-label="Forward"
+                  className="flex h-8 w-8 items-center justify-center rounded-full bg-black text-white/40"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={() => handleViewSelect("browse")}
+                  className="ml-2 hidden items-center gap-2 rounded-full bg-white px-4 py-2 text-sm font-medium text-black desktop:flex"
+                >
+                  <Search className="h-4 w-4" />
+                  Explore
+                </button>
+              </div>
+              <div className="flex items-center gap-3" onMouseDown={(e) => e.stopPropagation()}>
+                <button aria-label="Notifications" className="text-white/70 can-hover:hover:text-white">
+                  <Bell className="h-4 w-4" />
+                </button>
+                <button aria-label="Profile" className="flex h-8 w-8 items-center justify-center rounded-full bg-[#535353] text-white">
+                  <UserRound className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
           )}
           {renderContent()}
         </div>

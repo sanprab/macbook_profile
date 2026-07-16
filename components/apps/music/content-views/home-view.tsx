@@ -41,46 +41,28 @@ export function HomeView({
 
   return (
     <div className="h-full overflow-y-auto overflow-x-hidden">
-      <div className={cn("p-6", isMobileView && "p-4 pb-20")}>
-        {/* Apple Music Promo Banner */}
-        <div className="mb-8">
-          <a
-            href="https://apple.com/music"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={cn(
-              "relative block rounded-xl overflow-hidden bg-gradient-to-b from-[#fc3c44] to-[#e82934] can-hover:hover:opacity-95 transition-opacity",
-              isMobileView ? "py-6 px-4" : "py-8 px-6"
-            )}
-          >
-            <div className="flex flex-col items-center text-center text-white">
-              <p className="text-sm font-medium mb-4">
-                Get 3 months for $3.99/month.
-              </p>
-              <div className="flex items-center gap-1 mb-4">
-                {/* Apple Logo */}
-                <svg
-                  className={cn(isMobileView ? "w-8 h-8" : "w-10 h-10")}
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                >
-                  <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z" />
-                </svg>
-                <span className={cn("font-semibold", isMobileView ? "text-3xl" : "text-4xl")}>
-                  Music
-                </span>
+      <div className={cn("px-6 pb-8", isMobileView && "p-4 pb-20")}>
+        <h1 className={cn("mb-6 text-2xl font-bold", !isMobileView && "text-3xl")}>Good evening</h1>
+        <div className={cn("mb-8 grid gap-2", isMobileView ? "grid-cols-1" : "grid-cols-2 desktop:grid-cols-3")}>
+          {playlists.slice(0, 6).map((playlist) => (
+            <button
+              key={playlist.id}
+              onClick={() => onPlaylistSelect(playlist.id)}
+              className="group flex min-w-0 items-center overflow-hidden rounded-md bg-[#2a2a2a] text-left can-hover:hover:bg-[#3a3a3a]"
+            >
+              <div className="relative h-12 w-12 shrink-0 overflow-hidden">
+                {playlist.tracks[0]?.albumArt && <Image src={playlist.tracks[0].albumArt} alt="" fill className="object-cover" unoptimized />}
               </div>
-              <p className="text-sm font-medium">Try Apple Music</p>
-              <p className="text-xs text-white/80">
-                3 months for $3.99/month, then $10.99/month
-              </p>
-            </div>
-          </a>
+              <span className="truncate px-3 text-sm font-bold">{playlist.name}</span>
+              <span className="ml-auto mr-2 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1ed760] text-black opacity-0 shadow-lg transition-opacity can-hover:group-hover:opacity-100">
+                <Play className="ml-0.5 h-4 w-4 fill-current" />
+              </span>
+            </button>
+          ))}
         </div>
-
-        {/* Your Playlists - Horizontal Scroll */}
+        {/* Your Playlists */}
         <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-4">Playlists</h2>
+          <h2 className="text-2xl font-bold mb-4">Made for you</h2>
           <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
             {playlists.map((playlist) => {
               const isPlaying =
@@ -92,9 +74,9 @@ export function HomeView({
                 <div
                   key={playlist.id}
                   onClick={() => onPlaylistSelect(playlist.id)}
-                  className="group cursor-pointer flex-shrink-0 w-32"
+                  className="group cursor-pointer flex-shrink-0 w-40 rounded-md p-3 can-hover:hover:bg-[#1f1f1f]"
                 >
-                  <div className="relative aspect-square rounded-lg overflow-hidden mb-2 bg-muted">
+                  <div className="relative aspect-square rounded-md overflow-hidden mb-3 bg-muted">
                     {playlist.tracks[0]?.albumArt ? (
                       <Image
                         src={playlist.tracks[0].albumArt}
@@ -127,9 +109,9 @@ export function HomeView({
           </div>
         </div>
 
-        {/* Your Songs - Horizontal Scroll */}
+        {/* Recently played */}
         <div className="mb-8">
-          <h2 className="text-lg font-semibold mb-4">Songs</h2>
+          <h2 className="text-2xl font-bold mb-4">Recently played</h2>
           <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
             {songs.map((song) => {
               const isPlaying =
@@ -141,11 +123,11 @@ export function HomeView({
                   key={song.id}
                   onClick={() => song.previewUrl && play(song, songs)}
                   className={cn(
-                    "group flex-shrink-0 w-32",
+                  "group flex-shrink-0 w-40 rounded-md p-3 can-hover:hover:bg-[#1f1f1f]",
                     song.previewUrl && "cursor-pointer"
                   )}
                 >
-                  <div className="relative aspect-square rounded-lg overflow-hidden mb-2 bg-muted">
+                  <div className="relative aspect-square rounded-md overflow-hidden mb-3 bg-muted">
                     <Image
                       src={song.albumArt}
                       alt={song.name}

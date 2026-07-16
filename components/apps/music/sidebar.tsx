@@ -3,7 +3,8 @@
 import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MusicView, Playlist } from "./types";
-import { Home, Compass, User, Disc3, Music, ListMusic } from "lucide-react";
+import { Home, Search, User, Disc3, Music, ListMusic, Plus, Library, ChevronRight } from "lucide-react";
+import Image from "next/image";
 
 interface SidebarProps {
   children: React.ReactNode;
@@ -26,10 +27,7 @@ export function Sidebar({
 }: SidebarProps) {
   return (
     <div
-      className={cn(
-        "flex flex-col h-full",
-        isMobileView ? "bg-background" : "bg-muted"
-      )}
+      className={cn("flex h-full flex-col bg-black text-white", !isMobileView && "gap-2")}
     >
       {children}
       <div className="flex-1 min-h-0 overflow-hidden">
@@ -41,9 +39,9 @@ export function Sidebar({
             onScroll?.(target.scrollTop > 0);
           }}
         >
-          <div className={cn("px-2 py-2", isMobileView ? "w-full" : "w-[220px]")}>
-            {/* Main */}
-            <div className="mb-4">
+          <div className={cn("px-2 pb-2", isMobileView ? "w-full" : "w-[300px]")}>
+            {/* Main navigation panel */}
+            <div className="mb-2 rounded-lg bg-[#121212] p-2">
               <SidebarItem
                 icon={<Home className="w-4 h-4" />}
                 label="Home"
@@ -52,19 +50,34 @@ export function Sidebar({
                 isMobileView={isMobileView}
               />
               <SidebarItem
-                icon={<Compass className="w-4 h-4" />}
-                label="Browse"
+                icon={<Search className="w-4 h-4" />}
+                label="Search"
                 isActive={activeView === "browse"}
                 onClick={() => onViewSelect("browse")}
                 isMobileView={isMobileView}
               />
             </div>
 
-            {/* Library Section */}
-            <div className="mb-4">
-              <p className="text-xs text-muted-foreground px-3 py-1 font-semibold uppercase tracking-wide">
-                Library
-              </p>
+            {/* Your Library panel */}
+            <div className="rounded-lg bg-[#121212] p-2">
+              <div className="mb-3 flex items-center justify-between px-2 pt-1">
+                <div className="flex items-center gap-2 text-sm font-bold text-white/90">
+                  <Library className="h-5 w-5" />
+                  <span>Your Library</span>
+                </div>
+                <div className="flex items-center gap-1 text-white/70">
+                  <button aria-label="Create playlist" className="rounded-full p-1 can-hover:hover:bg-white/10 can-hover:hover:text-white">
+                    <Plus className="h-4 w-4" />
+                  </button>
+                  <button aria-label="Expand library" className="rounded-full p-1 can-hover:hover:bg-white/10 can-hover:hover:text-white">
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+              <div className="mb-3 flex gap-2 px-1">
+                <span className="rounded-full bg-[#2a2a2a] px-3 py-1 text-xs font-medium">Playlists</span>
+                <span className="rounded-full bg-[#2a2a2a] px-3 py-1 text-xs font-medium">Artists</span>
+              </div>
               <SidebarItem
                 icon={<User className="w-4 h-4" />}
                 label="Artists"
@@ -88,16 +101,14 @@ export function Sidebar({
               />
             </div>
 
-            {/* Playlists Section */}
             {playlists.length > 0 && (
-              <div>
-                <p className="text-xs text-muted-foreground px-3 py-1 font-semibold uppercase tracking-wide">
-                  Playlists
-                </p>
+              <div className="mt-2">
                 {playlists.map((playlist) => (
                   <SidebarItem
                     key={playlist.id}
-                    icon={<ListMusic className="w-4 h-4" />}
+                    icon={playlist.tracks[0]?.albumArt ? (
+                      <Image src={playlist.tracks[0].albumArt} alt="" width={40} height={40} className="h-10 w-10 rounded object-cover" unoptimized />
+                    ) : <ListMusic className="w-4 h-4" />}
                     label={playlist.name}
                     isActive={activeView === "playlist" && selectedPlaylistId === playlist.id}
                     onClick={() => onViewSelect("playlist", playlist.id)}
@@ -130,10 +141,10 @@ function SidebarItem({
     <button
       onClick={onClick}
       className={cn(
-        "w-full flex items-center gap-2 px-3 py-1.5 rounded-lg text-sm transition-colors text-left",
+        "w-full flex min-h-10 items-center gap-3 px-3 py-2 rounded-md text-sm transition-colors text-left",
         isActive && !isMobileView
-          ? "bg-zinc-200/70 dark:bg-zinc-700/70 text-red-500"
-          : "text-foreground",
+          ? "bg-[#282828] text-white"
+          : "text-white/70 can-hover:hover:bg-[#1f1f1f] can-hover:hover:text-white",
         isMobileView && "py-3"
       )}
     >

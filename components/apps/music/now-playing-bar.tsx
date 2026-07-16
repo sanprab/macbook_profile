@@ -13,6 +13,8 @@ import {
   Repeat1,
   Volume2,
   VolumeX,
+  ListMusic,
+  Maximize2,
 } from "lucide-react";
 import { Slider } from "@/components/ui/slider";
 import { formatDuration } from "@/lib/music/utils";
@@ -66,13 +68,13 @@ export function NowPlayingBar({ isMobileView }: NowPlayingBarProps) {
   return (
     <div
       className={cn(
-        "flex-shrink-0 border-t border-border bg-background/95 backdrop-blur-sm",
-        isMobileView ? "h-16 px-3" : "h-20 px-4"
+        "flex-shrink-0 border-t border-white/10 bg-[#181818]/95 text-white backdrop-blur-sm",
+        isMobileView ? "h-16 px-3" : "h-[88px] px-4"
       )}
     >
       <div className="h-full flex items-center gap-4">
         {/* Track Info */}
-        <div className="flex items-center gap-3 min-w-0 flex-1 max-w-[200px]">
+        <div className="flex items-center gap-3 min-w-0 flex-1 max-w-[260px]">
           <div
             className={cn(
               "relative flex-shrink-0 rounded overflow-hidden bg-muted",
@@ -96,7 +98,7 @@ export function NowPlayingBar({ isMobileView }: NowPlayingBarProps) {
         </div>
 
         {/* Center Controls */}
-        <div className="flex-1 flex flex-col items-center justify-center gap-1">
+        <div className="flex-1 flex flex-col items-center justify-center gap-1.5">
           {/* Control Buttons */}
           <div className="flex items-center gap-2">
             {!isMobileView && (
@@ -105,7 +107,7 @@ export function NowPlayingBar({ isMobileView }: NowPlayingBarProps) {
                 className={cn(
                   "p-2 rounded-full transition-colors",
                   isShuffle
-                    ? "text-red-500"
+                    ? "text-[#1ed760]"
                     : "text-muted-foreground hover:text-foreground"
                 )}
                 title={isShuffle ? "Shuffle On" : "Shuffle Off"}
@@ -129,7 +131,7 @@ export function NowPlayingBar({ isMobileView }: NowPlayingBarProps) {
 
             <button
               onClick={handlePlayPause}
-              className="p-2 rounded-full bg-foreground text-background hover:opacity-90 transition-opacity"
+                className="p-2.5 rounded-full bg-white text-black can-hover:hover:scale-105 transition-all"
             >
               {isPlaying ? (
                 <Pause className="w-5 h-5" />
@@ -157,7 +159,7 @@ export function NowPlayingBar({ isMobileView }: NowPlayingBarProps) {
                 className={cn(
                   "p-2 rounded-full transition-colors",
                   repeatMode !== "off"
-                    ? "text-red-500"
+                    ? "text-[#1ed760]"
                     : "text-muted-foreground hover:text-foreground"
                 )}
               >
@@ -192,7 +194,10 @@ export function NowPlayingBar({ isMobileView }: NowPlayingBarProps) {
 
         {/* Volume Control */}
         {!isMobileView && (
-          <div className="flex items-center gap-2 w-[150px]">
+          <div className="flex items-center justify-end gap-2 w-[260px]">
+            <button aria-label="Now playing view" className="p-2 text-white/70 can-hover:hover:text-white">
+              <Maximize2 className="w-4 h-4" />
+            </button>
             <button
               onClick={handleVolumeToggle}
               className="p-2 rounded-full text-muted-foreground hover:text-foreground transition-colors"
@@ -210,6 +215,9 @@ export function NowPlayingBar({ isMobileView }: NowPlayingBarProps) {
               onValueChange={([value]) => setVolume(value / 100)}
               className="flex-1"
             />
+            <button aria-label="Queue" className="p-2 text-white/70 can-hover:hover:text-white">
+              <ListMusic className="w-4 h-4" />
+            </button>
           </div>
         )}
       </div>
