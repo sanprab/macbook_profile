@@ -464,9 +464,9 @@ export function Dock({
         {appsToRender.map((app) => {
           const isOpen = hasOpenWindows(app.id);
           const isStaticDockItem = app.dockStatic === true;
-          const iconSize = isStaticDockItem
-            ? Math.round(metrics.icon * STATIC_APP_ICON_SCALE * (app.dockIconScale ?? 1))
-            : metrics.icon;
+          const iconSize = Math.round(
+            metrics.icon * (isStaticDockItem ? STATIC_APP_ICON_SCALE : 1) * (app.dockIconScale ?? 1)
+          );
           const usesWhiteIconTile = app.id === "google-chrome" || app.id === "notion";
           const usesDarkIconTile = app.id === "sublime-text";
           const animState = animationStates[app.id] || "stable";
