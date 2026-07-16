@@ -1,4 +1,4 @@
-# [sanjivgoyal.com](https://sanjivgoyal.com)
+# [sanjivprabhunandan.com](https://sanjivprabhunandan.com)
 
 i'm obsessed with re-creating apple products. this is a macos-inspired personal website featuring a full desktop environment with multiple apps.
 
