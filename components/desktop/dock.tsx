@@ -15,31 +15,8 @@ interface DockProps {
 
 function DockTooltip({ label }: { label: string }) {
   return (
-    <div className="absolute -top-10 left-1/2 -translate-x-1/2 pointer-events-none">
-      <svg
-        viewBox="0 0 100 44"
-        className="h-9 min-w-16"
-        style={{ width: `${Math.max(64, label.length * 9 + 24)}px` }}
-        preserveAspectRatio="none"
-      >
-        <path
-          d="M 12 0
-             H 88
-             Q 100 0 100 12
-             V 20
-             Q 100 32 88 32
-             H 56
-             L 50 38
-             L 44 32
-             H 12
-             Q 0 32 0 20
-             V 12
-             Q 0 0 12 0
-             Z"
-          className="fill-white/70 dark:fill-zinc-800/70"
-        />
-      </svg>
-      <span className="absolute inset-0 flex items-center justify-center text-zinc-800 dark:text-white text-xs font-medium pb-2 whitespace-nowrap px-3">
+    <div className="absolute left-[calc(100%+12px)] top-1/2 -translate-y-1/2 pointer-events-none rounded-md bg-white/70 px-3 py-1.5 text-zinc-800 shadow-sm dark:bg-zinc-800/70 dark:text-white before:absolute before:right-full before:top-1/2 before:-translate-y-1/2 before:border-y-[5px] before:border-y-transparent before:border-r-[6px] before:border-r-white/70 dark:before:border-r-zinc-800/70">
+      <span className="flex items-center justify-center text-xs font-medium whitespace-nowrap">
         {label}
       </span>
     </div>
@@ -114,7 +91,7 @@ export function Dock({
   const [hoveredApp, setHoveredApp] = useState<string | null>(null);
   const [desiredScale, setDesiredScale] = useState(getInitialDockScale);
   const [isResizingDock, setIsResizingDock] = useState(false);
-  const dragStateRef = useRef<{ pointerId: number; startY: number; startScale: number } | null>(null);
+  const dragStateRef = useRef<{ pointerId: number; startX: number; startScale: number } | null>(null);
   const previousUserSelectRef = useRef<string | null>(null);
   const previousCursorRef = useRef<string | null>(null);
 
@@ -367,13 +344,13 @@ export function Dock({
       (event.currentTarget as HTMLElement).setPointerCapture(event.pointerId);
       dragStateRef.current = {
         pointerId: event.pointerId,
-        startY: event.clientY,
+        startX: event.clientX,
         startScale: desiredScale,
       };
       previousUserSelectRef.current = document.body.style.userSelect;
       previousCursorRef.current = document.body.style.cursor;
       document.body.style.userSelect = "none";
-      document.body.style.cursor = "ns-resize";
+      document.body.style.cursor = "ew-resize";
       setIsResizingDock(true);
     },
     [desiredScale]
@@ -383,17 +360,17 @@ export function Dock({
     const drag = dragStateRef.current;
     if (!drag || drag.pointerId !== event.pointerId) return;
     event.preventDefault();
-    const viewportHeight = window.innerHeight;
-    if (event.clientY >= viewportHeight - 1) {
+    const viewportWidth = window.innerWidth;
+    if (event.clientX <= 1) {
       updateDesiredScale(DOCK_MIN_DESIRED_SCALE);
       return;
     }
-    if (event.clientY <= 1) {
+    if (event.clientX >= viewportWidth - 1) {
       updateDesiredScale(DOCK_MAX_DESIRED_SCALE);
       return;
     }
-    const deltaY = drag.startY - event.clientY;
-    const scaleDelta = deltaY / DOCK_DRAG_PIXELS_PER_SCALE;
+    const deltaX = event.clientX - drag.startX;
+    const scaleDelta = deltaX / DOCK_DRAG_PIXELS_PER_SCALE;
     updateDesiredScale(drag.startScale + scaleDelta);
   }, [updateDesiredScale]);
 
@@ -415,12 +392,12 @@ export function Dock({
   }, [endDockResize]);
 
   const handleResizeKeyDown = useCallback((event: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (event.key === "ArrowUp") {
+    if (event.key === "ArrowRight") {
       event.preventDefault();
       updateDesiredScale(desiredScale + DOCK_SCALE_STEP);
       return;
     }
-    if (event.key === "ArrowDown") {
+    if (event.key === "ArrowLeft") {
       event.preventDefault();
       updateDesiredScale(desiredScale - DOCK_SCALE_STEP);
       return;
@@ -463,15 +440,15 @@ export function Dock({
   }, [endDockResize]);
 
   return (
-    <div className="fixed bottom-3 left-1/2 -translate-x-1/2 z-[60]">
+    <div className="fixed left-3 top-1/2 -translate-y-1/2 z-[60]">
       <div
         className={cn(
-          "flex items-end bg-white/30 dark:bg-black/30 backdrop-blur-2xl rounded-2xl border border-white/10 dark:border-white/10 shadow-lg w-max",
+          "flex flex-col items-center bg-white/30 dark:bg-black/30 backdrop-blur-2xl rounded-2xl border border-white/10 dark:border-white/10 shadow-lg h-max",
           isResizingDock ? "transition-none" : "transition-all duration-300"
         )}
         style={{
           gap: `${metrics.gap}px`,
-          padding: `${metrics.padY}px ${metrics.padX}px`,
+          padding: `${metrics.padX}px ${metrics.padY}px`,
         }}
       >
         {appsToRender.map((app) => {
@@ -529,7 +506,7 @@ export function Dock({
               </div>
               <div
                 className={cn(
-                  "rounded-full mt-1 transition-opacity",
+                  "absolute -right-1 top-1/2 -translate-y-1/2 rounded-full transition-opacity",
                   // Finder always shows dot (can be closed but not quit)
                   isOpen || app.id === "finder"
                     ? "bg-black/60 dark:bg-white/60 opacity-100"
@@ -540,7 +517,7 @@ export function Dock({
             </button>
           );
         })}
-        {/* Resize handle before Trash */}
+        {/* Horizontal divider and resize handle before Trash */}
         <button
           type="button"
           aria-label="Resize Dock"
@@ -554,11 +531,11 @@ export function Dock({
           onMouseEnter={() => setHoveredApp(null)}
           className="relative self-center rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/70"
           style={{
-            width: `${metrics.handleHitboxWidth}px`,
-            height: `${metrics.dividerHeight + 8}px`,
-            marginLeft: `${metrics.dividerMarginX}px`,
-            marginRight: `${metrics.dividerMarginX}px`,
-            cursor: "ns-resize",
+            width: `${metrics.dividerHeight + 8}px`,
+            height: `${metrics.handleHitboxWidth}px`,
+            marginTop: `${metrics.dividerMarginX}px`,
+            marginBottom: `${metrics.dividerMarginX}px`,
+            cursor: "ew-resize",
             touchAction: "none",
           }}
         >
@@ -569,8 +546,8 @@ export function Dock({
               isResizingDock && "bg-black/35 dark:bg-white/30"
             )}
             style={{
-              width: `${metrics.handleLineWidth}px`,
-              height: `${metrics.dividerHeight}px`,
+              width: `${metrics.dividerHeight}px`,
+              height: `${metrics.handleLineWidth}px`,
             }}
           />
         </button>
@@ -580,7 +557,7 @@ export function Dock({
           onClick={handleTrashClick}
           onMouseEnter={() => setHoveredApp("trash")}
           onMouseLeave={() => setHoveredApp(null)}
-          className="group relative flex flex-col items-center transition-transform hover:scale-110 active:scale-95 outline-none flex-shrink-0"
+          className="group relative flex flex-col items-center transition-transform can-hover:hover:scale-110 active:scale-95 outline-none flex-shrink-0"
         >
           {hoveredApp === "trash" && !isResizingDock && <DockTooltip label="Trash" />}
           <div
@@ -597,8 +574,6 @@ export function Dock({
               unoptimized
             />
           </div>
-          {/* Trash doesn't show open indicator */}
-          <div className="rounded-full mt-1 opacity-0" style={{ width: `${metrics.dot}px`, height: `${metrics.dot}px` }} />
         </button>
       </div>
     </div>
