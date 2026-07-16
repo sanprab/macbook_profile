@@ -100,7 +100,7 @@ export const OS_VERSIONS: OSVersion[] = [
   {
     id: "sonoma-from-above",
     name: "Sonoma From Above",
-    version: "14.0",
+    version: "26.5.2",
     darwinVersion: "23.0.0",
     wallpaperFile: "sonoma-from-above-wallpaper.jpg",
     releaseYear: 2023,

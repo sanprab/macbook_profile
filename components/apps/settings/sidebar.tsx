@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
 import { Settings, Paintbrush, Search, X, ChevronRight, Plane, Wifi, Bluetooth, Radio, Link2, Battery } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { SettingsCategory, SettingsPanel } from "./settings-app";
@@ -59,7 +58,7 @@ const connectivityItems = [
   { id: "battery", name: "Battery", icon: <Battery className="w-5 h-5 text-white" />, iconBg: "bg-green-500", type: "static" as const },
 ];
 
-const appleAccountKeywords = ["alana", "goyal", "apple", "account", "personal", "information", "name", "birthday"];
+const appleAccountKeywords = ["sanjiv", "goyal", "apple", "account", "personal", "information", "name", "birthday"];
 
 export function Sidebar({
   selectedCategory,
@@ -140,17 +139,10 @@ export function Sidebar({
                 {showAppleAccount && (
                   <button
                     onClick={onAccountClick}
-                    className="w-full flex items-center gap-3 p-3 rounded-xl bg-background mb-4"
+                    className="w-full flex items-center p-3 rounded-xl bg-background mb-4"
                   >
-                    <Image
-                      src="/headshot.jpg"
-                      alt="Alana Goyal"
-                      width={56}
-                      height={56}
-                      className="rounded-full"
-                    />
                     <div className="text-left flex-1">
-                      <div className="font-semibold text-lg">Alana Goyal</div>
+                      <div className="font-semibold text-lg">Sanjiv Prabhunandan</div>
                       <div className="text-sm text-muted-foreground">
                         Apple Account, iCloud+, and more
                       </div>
@@ -295,21 +287,14 @@ export function Sidebar({
                   <button
                     onClick={onAccountClick}
                     className={cn(
-                      "w-full flex items-center gap-3 p-2 rounded-lg transition-colors",
+                      "w-full flex items-center p-2 rounded-lg transition-colors",
                       selectedPanel === "personal-info"
                         ? "bg-zinc-300 dark:bg-zinc-600"
                         : "can-hover:hover:bg-background/50"
                     )}
                   >
-                    <Image
-                      src="/headshot.jpg"
-                      alt="Alana Goyal"
-                      width={48}
-                      height={48}
-                      className="rounded-full"
-                    />
                     <div className="text-left">
-                      <div className="font-medium text-xs">Alana Goyal</div>
+                      <div className="font-medium text-xs">Sanjiv Prabhunandan</div>
                       <div className="text-[10px] text-muted-foreground">Apple Account</div>
                     </div>
                   </button>

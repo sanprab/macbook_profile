@@ -33,7 +33,7 @@ export function AboutPanel({ isMobile = false, onCategorySelect }: AboutPanelPro
           <div className="flex items-center justify-between px-4 py-3 border-b border-border/50">
             <span className="text-base">Name</span>
             <div className="flex items-center gap-1">
-              <span className="text-base text-muted-foreground">alana&apos;s iphone</span>
+              <span className="text-base text-muted-foreground">sanjiv&apos;s iphone</span>
               <ChevronRight className="w-5 h-5 text-muted-foreground" />
             </div>
           </div>
@@ -46,7 +46,7 @@ export function AboutPanel({ isMobile = false, onCategorySelect }: AboutPanelPro
           </div>
           <div className="flex items-center justify-between px-4 py-3 border-b border-border/50">
             <span className="text-base">Model Name</span>
-            <span className="text-base text-muted-foreground">iPhone 16 Pro</span>
+            <span className="text-base text-muted-foreground">iPhone 17 Pro</span>
           </div>
           <div className="flex items-center justify-between px-4 py-3 border-b border-border/50">
             <span className="text-base">Model Number</span>
@@ -159,8 +159,8 @@ export function AboutPanel({ isMobile = false, onCategorySelect }: AboutPanelPro
             />
           </svg>
         </div>
-        <h2 className="text-xl font-semibold">MacBook Air</h2>
-        <p className="text-xs text-muted-foreground">M2, 2022</p>
+        <h2 className="text-xl font-semibold">MacBook Pro</h2>
+        <p className="text-xs text-muted-foreground">16-inch, Nov 2024</p>
       </div>
 
       {/* Specs Table */}
@@ -168,19 +168,31 @@ export function AboutPanel({ isMobile = false, onCategorySelect }: AboutPanelPro
         <div className="divide-y divide-border/50">
           <div className="flex justify-between px-4 py-3">
             <span className="text-xs text-muted-foreground">Name</span>
-            <span className="text-xs">Alana&apos;s MacBook Air</span>
+            <span className="text-xs">Sanjiv&apos;s MacBook Pro</span>
           </div>
           <div className="flex justify-between px-4 py-3">
             <span className="text-xs text-muted-foreground">Chip</span>
-            <span className="text-xs">Apple M2</span>
+            <span className="text-xs">Apple M4 Max</span>
           </div>
           <div className="flex justify-between px-4 py-3">
             <span className="text-xs text-muted-foreground">Memory</span>
-            <span className="text-xs">24 GB</span>
+            <span className="text-xs">48 GB</span>
           </div>
           <div className="flex justify-between px-4 py-3">
             <span className="text-xs text-muted-foreground">Serial number</span>
-            <span className="text-xs">L76NXH926Q</span>
+            <span className="text-xs">C02XK7P4JGH5</span>
+          </div>
+          <div className="flex items-center justify-between gap-3 px-4 py-3">
+            <span className="text-xs text-muted-foreground">Limited Warranty</span>
+            <div className="flex items-center gap-2">
+              <span className="text-xs">Expires August 29, 2026</span>
+              <button
+                type="button"
+                className="rounded-md bg-background px-2 py-1 text-xs can-hover:hover:bg-muted transition-colors"
+              >
+                Details...
+              </button>
+            </div>
           </div>
         </div>
       </div>

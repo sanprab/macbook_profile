@@ -35,6 +35,7 @@ export const APPS: AppConfig[] = [
     defaultSize: { width: 800, height: 550 },
     minSize: { width: 500, height: 400 },
     menuBarTitle: "Messages",
+    showOnDockByDefault: false,
   },
   {
     id: "photos",

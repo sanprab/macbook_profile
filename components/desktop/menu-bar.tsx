@@ -15,7 +15,6 @@ import { AppMenu } from "./app-menu";
 import { FileMenu } from "./file-menu";
 import { AboutDialog } from "./about-dialog";
 import { useFileMenuActions } from "@/lib/file-menu-context";
-import type { PodcastNotificationPayload } from "@/types/desktop-notification";
 
 type OpenMenu = "apple" | "appMenu" | "fileMenu" | "battery" | "wifi" | "controlCenter" | "notificationCenter" | null;
 
@@ -29,7 +28,6 @@ interface MenuBarProps {
   onLockScreen?: () => void;
   onLogout?: () => void;
   onOpenMessagesConversation?: (conversationId: string) => void;
-  onOpenPodcastNotification?: (notification: PodcastNotificationPayload) => void;
 }
 
 export function MenuBar({
@@ -42,7 +40,6 @@ export function MenuBar({
   onLockScreen,
   onLogout,
   onOpenMessagesConversation,
-  onOpenPodcastNotification,
 }: MenuBarProps) {
   const fileMenuActions = useFileMenuActions();
   const { getFocusedAppId, closeApp, state, setMenuOpen } = useWindowManager();
@@ -263,7 +260,6 @@ export function MenuBar({
         isOpen={openMenu === "notificationCenter"}
         onClose={closeMenu}
         onOpenMessagesConversation={onOpenMessagesConversation}
-        onOpenPodcastNotification={onOpenPodcastNotification}
       />
 
       <AboutDialog

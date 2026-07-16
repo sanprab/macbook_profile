@@ -16,7 +16,7 @@ const knownNetworks = [
 ];
 
 const personalHotspots = [
-  { name: "alana's iphone" },
+  { name: "sanjiv's iphone" },
 ];
 
 const otherNetworks = [

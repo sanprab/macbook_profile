@@ -10,10 +10,10 @@ import {
   fetchGitHubRepos,
 } from "@/lib/github-client";
 
-const USERNAME = "alanagoyal";
-const HOSTNAME = "Alanas-MacBook-Air";
-const HOME_DIR = "/Users/alanagoyal";
-const PROJECTS_DIR = "/Users/alanagoyal/Projects";
+const USERNAME = "sanjivgoyal";
+const HOSTNAME = "Sanjivs-MacBook-Air";
+const HOME_DIR = "/Users/sanjivgoyal";
+const PROJECTS_DIR = "/Users/sanjivgoyal/Projects";
 
 // Storage key for persisting terminal state
 const ITERM_STORAGE_KEY = "iterm-terminal-state";
@@ -122,16 +122,16 @@ interface FileNode {
 // Base file system (static content)
 const BASE_FILE_SYSTEM: Record<string, FileNode> = {
   "/": { type: "dir", contents: ["Users", "Applications", "System", "Library"] },
-  "/Users": { type: "dir", contents: ["alanagoyal", "Shared"] },
-  "/Users/alanagoyal": { type: "dir", contents: ["Desktop", "Documents", "Downloads", "Projects"] },
-  "/Users/alanagoyal/Desktop": { type: "dir", contents: ["hello.md"] },
-  "/Users/alanagoyal/Desktop/hello.md": {
+  "/Users": { type: "dir", contents: ["sanjivgoyal", "Shared"] },
+  "/Users/sanjivgoyal": { type: "dir", contents: ["Desktop", "Documents", "Downloads", "Projects"] },
+  "/Users/sanjivgoyal/Desktop": { type: "dir", contents: ["hello.md"] },
+  "/Users/sanjivgoyal/Desktop/hello.md": {
     type: "file",
     content: "hello world!",
   },
-  "/Users/alanagoyal/Documents": { type: "dir", contents: [] },
-  "/Users/alanagoyal/Downloads": { type: "dir", contents: [] },
-  "/Users/alanagoyal/Projects": { type: "dir", contents: [] }, // Dynamic from GitHub
+  "/Users/sanjivgoyal/Documents": { type: "dir", contents: [] },
+  "/Users/sanjivgoyal/Downloads": { type: "dir", contents: [] },
+  "/Users/sanjivgoyal/Projects": { type: "dir", contents: [] }, // Dynamic from GitHub
   "/Applications": { type: "dir", contents: ["iTerm.app", "Safari.app", "Notes.app", "Messages.app"] },
   "/System": { type: "dir", contents: ["Library"] },
   "/Library": { type: "dir", contents: ["Fonts", "Preferences"] },
