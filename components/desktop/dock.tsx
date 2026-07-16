@@ -468,6 +468,7 @@ export function Dock({
             ? Math.round(metrics.icon * STATIC_APP_ICON_SCALE * (app.dockIconScale ?? 1))
             : metrics.icon;
           const usesWhiteIconTile = app.id === "google-chrome" || app.id === "notion";
+          const usesDarkIconTile = app.id === "sublime-text";
           const animState = animationStates[app.id] || "stable";
           const badgeCount = appBadges[app.id] ?? 0;
 
@@ -506,6 +507,21 @@ export function Dock({
                       width={iconSize}
                       height={iconSize}
                       className="pointer-events-none h-full w-full rounded-[17%] object-contain"
+                      draggable={false}
+                    unoptimized
+                  />
+                </div>
+                ) : usesDarkIconTile ? (
+                  <div
+                    className="flex items-center justify-center overflow-hidden rounded-[26%] bg-[#444] [filter:drop-shadow(0_2px_4px_rgba(0,0,0,0.35))]"
+                    style={{ width: `${iconSize}px`, height: `${iconSize}px` }}
+                  >
+                    <Image
+                      src={app.icon}
+                      alt={app.name}
+                      width={iconSize}
+                      height={iconSize}
+                      className="pointer-events-none h-full w-full object-cover"
                       draggable={false}
                       unoptimized
                     />

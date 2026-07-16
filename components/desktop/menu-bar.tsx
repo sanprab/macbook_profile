@@ -180,7 +180,7 @@ export function MenuBar({
         </div>
 
         <div className="hidden items-center gap-1 px-1 text-sm font-semibold text-black dark:text-white lg:flex">
-          <MoonStar className="h-4 w-4" strokeWidth={2.25} />
+          <MoonStar className="h-4 w-4 fill-current" strokeWidth={2.25} />
           <span>61°F</span>
         </div>
 
