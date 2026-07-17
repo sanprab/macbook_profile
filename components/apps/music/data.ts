@@ -1,7 +1,7 @@
 import { Playlist } from "./types";
 
-// Default playlists with hardcoded track data
-export const DEFAULT_PLAYLISTS: Playlist[] = [
+// Retained seed data for the desktop media widget; it is not shown as a playlist.
+const LEGACY_PLAYLISTS: Playlist[] = [
   {
     id: "hip-hop-classics",
     name: "🪐",
@@ -1061,6 +1061,9 @@ export const DEFAULT_PLAYLISTS: Playlist[] = [
   },
 ];
 
+// The library starts with no user playlists.
+export const DEFAULT_PLAYLISTS: Playlist[] = [];
+
 type AlbumCatalogEntry = {
   id: string;
   name: string;
@@ -1076,7 +1079,6 @@ const ALBUM_CATALOG: Array<Pick<AlbumCatalogEntry, "name" | "artist">> = [
   { name: "American Gangster", artist: "Jay-Z" },
   { name: "Let God Sort Em Out", artist: "Clipse" },
   { name: "Game Related", artist: "Cardo Got Wings" },
-  { name: "56 Nights", artist: "Future" },
   { name: "Views", artist: "Drake" },
   { name: "To Pimp a Butterfly", artist: "Kendrick Lamar" },
   { name: "Watch the Throne", artist: "Jay-Z" },
@@ -1088,8 +1090,6 @@ const ALBUM_CATALOG: Array<Pick<AlbumCatalogEntry, "name" | "artist">> = [
   { name: "Friday Night Lights", artist: "J. Cole" },
   { name: "What's Going On", artist: "Marvin Gaye" },
   { name: "Her Loss", artist: "Drake" },
-  { name: "Jesus Piece", artist: "The Game" },
-  { name: "The Documentary 2", artist: "The Game" },
   { name: "Invincible", artist: "Michael Jackson" },
   { name: "Thriller", artist: "Michael Jackson" },
   { name: "An Evening with Silk Sonic", artist: "Silk Sonic" },
@@ -1132,16 +1132,26 @@ const ALBUM_CATALOG: Array<Pick<AlbumCatalogEntry, "name" | "artist">> = [
   { name: "ASTROWORLD", artist: "Travis Scott" },
   { name: "As I Am", artist: "Alicia Keys" },
   { name: "Kaleidoscope Dream", artist: "Miguel" },
+  { name: "Currents", artist: "Tame Impala" },
+  { name: "American Idiot", artist: "Green Day" },
+  { name: "Making Music", artist: "Zakir Hussain" },
+  { name: "Greatest Hits", artist: "The Stylistics" },
+  { name: "Greatest Hits", artist: "The Isley Brothers" },
+  { name: "Greatest", artist: "Bee Gees" },
+  { name: "Nothing But The Best", artist: "Frank Sinatra" },
+  { name: "Bad", artist: "Michael Jackson" },
+  { name: "Dawn FM", artist: "The Weeknd" },
+  { name: "NEVER ENOUGH", artist: "Daniel Caesar" },
+  { name: "Into The Late Night", artist: "Larry June" },
 ];
 
 const ALBUM_ARTWORK: Record<string, string> = {
   "Game Related::Cardo Got Wings": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02e2769e8c3cab5c4689734cb8",
-  "Food & Liquor::Lupe Fiasco": "https://cdn-images.dzcdn.net/images/cover/33d47a84a7b7f03336a1832ca942bb30/1000x1000-000000-80-0-0.jpg",
+  "Food & Liquor::Lupe Fiasco": "https://is1-ssl.mzstatic.com/image/thumb/Music/78/d5/26/mzi.qcmcushu.jpg/600x600bb.jpg",
   "November::SiR": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/e0/a7/99/e0a7996d-3853-07ec-281a-ad0e5067715f/859724289075_cover.jpg/600x600bb.jpg",
   "The Blueprint::Jay-Z": "https://cdn-images.dzcdn.net/images/cover/1e6c4c38c36a19ea5cdbce45e7f1413b/1000x1000-000000-80-0-0.jpg",
   "American Gangster::Jay-Z": "https://cdn-images.dzcdn.net/images/cover/4f6b936bd0864edc9257bd7d36dfee26/1000x1000-000000-80-0-0.jpg",
   "Let God Sort Em Out::Clipse": "https://cdn-images.dzcdn.net/images/cover/f4ff7bcce83ed34f3cba56b8b0a66a35/1000x1000-000000-80-0-0.jpg",
-  "56 Nights::Future": "https://cdn-images.dzcdn.net/images/cover/dba73b589fc92b701a29cf43eed330f5/1000x1000-000000-80-0-0.jpg",
   "Views::Drake": "https://cdn-images.dzcdn.net/images/cover/56bdb7a86a27fadb96332c0c8f1b8e81/1000x1000-000000-80-0-0.jpg",
   "To Pimp a Butterfly::Kendrick Lamar": "https://cdn-images.dzcdn.net/images/cover/3cb4c99dc0f8b954b8b7470e72df8152/1000x1000-000000-80-0-0.jpg",
   "Watch the Throne::Jay-Z": "https://cdn-images.dzcdn.net/images/cover/5ff776f44edc5f7fbef5fa2169006f29/1000x1000-000000-80-0-0.jpg",
@@ -1153,10 +1163,8 @@ const ALBUM_ARTWORK: Record<string, string> = {
   "Friday Night Lights::J. Cole": "https://cdn-images.dzcdn.net/images/cover/5cfe3cdcc7a641397866cc1b8dfd1488/1000x1000-000000-80-0-0.jpg",
   "What's Going On::Marvin Gaye": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02b36949bee43217351961ffbc",
   "Her Loss::Drake": "https://cdn-images.dzcdn.net/images/cover/eb7bc1ba10726f8864821df4390a05e6/1000x1000-000000-80-0-0.jpg",
-  "Jesus Piece::The Game": "https://cdn-images.dzcdn.net/images/cover/a78ec49f2286dd8bc501eabcfe5400bb/1000x1000-000000-80-0-0.jpg",
-  "The Documentary 2::The Game": "https://cdn-images.dzcdn.net/images/cover/4011089ddc29a7c4cfd499354de540d1/1000x1000-000000-80-0-0.jpg",
   "Invincible::Michael Jackson": "https://cdn-images.dzcdn.net/images/cover/4e98a7af653c67d1030a763a20976c57/1000x1000-000000-80-0-0.jpg",
-  "Thriller::Michael Jackson": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02db4232d94539e4165951e749",
+  "Thriller::Michael Jackson": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/32/4f/fd/324ffda2-9e51-8f6a-0c2d-c6fd2b41ac55/074643811224.jpg/600x600bb.jpg",
   "An Evening with Silk Sonic::Silk Sonic": "https://cdn-images.dzcdn.net/images/cover/faada8a8c545b2e3d454267b55c82e14/1000x1000-000000-80-0-0.jpg",
   "Reasonable Doubt::Jay-Z": "https://cdn-images.dzcdn.net/images/cover/88d1a92142197ab0480ae56407742828/1000x1000-000000-80-0-0.jpg",
   "The Infamous::Mobb Deep": "https://cdn-images.dzcdn.net/images/cover/d6e9c1a3ce072c0ecfe60abff98f06b9/1000x1000-000000-80-0-0.jpg",
@@ -1173,13 +1181,13 @@ const ALBUM_ARTWORK: Record<string, string> = {
   "Not All Heroes Wear Capes::Metro Boomin": "https://cdn-images.dzcdn.net/images/cover/7288c4a7cb8112ed0f301d25ec733d6c/1000x1000-000000-80-0-0.jpg",
   "Fetti::Curren$y": "https://cdn-images.dzcdn.net/images/cover/8ce0075d3d458a4f073b4cea614f1387/1000x1000-000000-80-0-0.jpg",
   "WWCD::Griselda": "https://cdn-images.dzcdn.net/images/cover/e31e4ca43e768583b93fe76d79a2f4fa/1000x1000-000000-80-0-0.jpg",
-  "Tell It Like It Is::Aaron Neville": "https://cdn-images.dzcdn.net/images/cover/6fcf0e276979d8c7ea5182096b65b732/1000x1000-000000-80-0-0.jpg",
-  "Piano Concerto No. 2::Sergei Rachmaninoff": "https://cdn-images.dzcdn.net/images/cover/e9592647d0fe869248cbbaf9ab5332c2/1000x1000-000000-80-0-0.jpg",
+  "Tell It Like It Is::Aaron Neville": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0278587b3cdcebfaa10a8fab85",
+  "Piano Concerto No. 2::Sergei Rachmaninoff": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/9b/bb/98/9bbb98b7-86c5-f75d-a2af-06dd5c3ef431/4260716431123.png/600x600bb.jpg",
   "Black Focus::Yussef Kamaal": "https://cdn-images.dzcdn.net/images/cover/6166cbef6458c6cb096d40efe3ffad93/1000x1000-000000-80-0-0.jpg",
   "AM::Arctic Monkeys": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e024ae1c4c5c45aabe565499163",
   "Off the Wall::Michael Jackson": "https://cdn-images.dzcdn.net/images/cover/9a1084ee1062fd9cd8dbeb1a8978351d/1000x1000-000000-80-0-0.jpg",
-  "Waltz for Debby::Bill Evans": "https://cdn-images.dzcdn.net/images/cover/9cd82f57f844e3972b364abd197e8c43/1000x1000-000000-80-0-0.jpg",
-  "The Masquerade::George Benson": "https://cdn-images.dzcdn.net/images/cover/dc75fada34ce528d0fcccfdc751e1751/1000x1000-000000-80-0-0.jpg",
+  "Waltz for Debby::Bill Evans": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e025783726fefd9439be01161ed",
+  "The Masquerade::George Benson": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/cb/37/9a/cb379acc-ee1e-920e-c287-6a8a0ed4c099/603497888269.jpg/600x600bb.jpg",
   "Extension of a Man::Donny Hathaway": "https://cdn-images.dzcdn.net/images/cover/68e7f4c561a7987647d9193daf00ed31/1000x1000-000000-80-0-0.jpg",
   "Nothing Was the Same::Drake": "https://cdn-images.dzcdn.net/images/cover/c98b7299c8bd3d27e7cb27c12490a091/1000x1000-000000-80-0-0.jpg",
   "Distant Relatives::Nas & Damian Marley": "https://cdn-images.dzcdn.net/images/cover/de8e421db99c59f202d1c936767eb506/1000x1000-000000-80-0-0.jpg",
@@ -1197,6 +1205,17 @@ const ALBUM_ARTWORK: Record<string, string> = {
   "ASTROWORLD::Travis Scott": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/e7/49/8f/e7498f65-df8f-bead-d6e3-2a8d4d642a79/886447235317.jpg/600x600bb.jpg",
   "As I Am::Alicia Keys": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/c7/88/df/c788dffe-d06f-8923-ad61-a6194daf6616/888880809919.jpg/600x600bb.jpg",
   "Kaleidoscope Dream::Miguel": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a1/56/ac/a156acb2-068e-a616-3e56-86ca656c14ce/886443632943.jpg/600x600bb.jpg",
+  "Currents::Tame Impala": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0254e56e10e3c0fdfc12a5b784",
+  "American Idiot::Green Day": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0202efa4afce8948778c9678f3",
+  "Making Music::Zakir Hussain": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02de2177abf7962260fb8f889c",
+  "Greatest Hits::The Stylistics": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/03/e9/62/03e962a7-1b83-0e23-7a84-9eeab02017b2/051617074328.png/600x600bb.jpg",
+  "Greatest Hits::The Isley Brothers": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02fde1924ebd87eb0fc62f9844",
+  "Greatest::Bee Gees": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0252038992fc6d7868f31d23b7",
+  "Nothing But The Best::Frank Sinatra": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c8ee4fcab2d1a23090c870d1",
+  "Bad::Michael Jackson": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d5/5f/28/d55f28f4-610c-ee81-dc16-a01cda46bbc4/886443546264.jpg/600x600bb.jpg",
+  "Dawn FM::The Weeknd": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/92/14/e3/9214e352-3322-3708-4903-cf5059c4985f/21UM1IM58861.rgb.jpg/600x600bb.jpg",
+  "NEVER ENOUGH::Daniel Caesar": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e027c68face1dc58127f3a7b1cc",
+  "Into The Late Night::Larry June": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/e9/94/3a/e9943a85-b58a-a2be-5c39-c7bcb7740a99/194690635373_cover.jpg/600x600bb.jpg",
 };
 
 // Static artwork keeps the library fast: no cover lookups happen during page load.
@@ -1262,8 +1281,8 @@ export function getAllSongs() {
 
 // Get the featured playlist
 export function getFeaturedPlaylist() {
-  return DEFAULT_PLAYLISTS.find((p) => p.is_featured) || DEFAULT_PLAYLISTS[0];
+  return DEFAULT_PLAYLISTS.find((playlist) => playlist.is_featured);
 }
 
 // Default track for media widget when nothing has been played
-export const DEFAULT_TRACK = DEFAULT_PLAYLISTS[0].tracks[0]; // "Soundtrack 2 My Life"
+export const DEFAULT_TRACK = LEGACY_PLAYLISTS[0].tracks[0]; // "Soundtrack 2 My Life"
