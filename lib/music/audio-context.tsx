@@ -261,6 +261,13 @@ export function AudioProvider({ children }: { children: ReactNode }) {
 
     const interval = setInterval(() => {
       if (audioRef.current && !audioRef.current.paused) {
+        const previewDuration = stateRef.current.currentTrack?.previewDuration;
+        if (previewDuration && audioRef.current.currentTime >= previewDuration) {
+          audioRef.current.pause();
+          setPlaybackState((prev) => ({ ...prev, isPlaying: false, progress: 1 }));
+          return;
+        }
+
         const progress =
           audioRef.current.duration > 0
             ? audioRef.current.currentTime / audioRef.current.duration

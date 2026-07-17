@@ -1276,6 +1276,36 @@ export function getAlbums(): AlbumCatalogEntry[] {
 }
 
 // A concise, static library of representative tracks from the album catalog.
+const SONG_PREVIEWS: Record<string, string> = {
+  "Kick, Push::Lupe Fiasco": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/72/71/ac/7271ac5d-3bed-4cbb-a18b-e7bd258b21f0/mzaf_6110642075810203421.plus.aac.p.m4a",
+  "That's Life::Frank Sinatra": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/b3/46/54/b34654a7-764b-bda7-f229-04d398f38286/mzaf_15245759595571522721.plus.aac.p.m4a",
+  "Renegade::Jay-Z": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/10/cf/c2/10cfc292-72cb-7668-b4ff-f9fd1f110a49/mzaf_4468626119219007750.plus.aac.p.m4a",
+  "Roc Boys (And the Winner Is...)::Jay-Z": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/25/d8/6c/25d86cbc-8467-59dc-8366-cb363e84a1bc/mzaf_12190723411621592994.plus.aac.p.m4a",
+  "Inglorious Bastards::Clipse": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/28/c4/33/28c43355-06f4-eb80-5321-693c32e34dd9/mzaf_14350284725771507409.plus.aac.p.m4a",
+  "Feel No Ways::Drake": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/8a/69/7a/8a697ad6-ea57-ff2e-0615-836064f817fc/mzaf_6128837073092275498.plus.aac.p.m4a",
+  "Wesley's Theory::Kendrick Lamar": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/30/4c/c3/304cc360-5db7-c71a-e6ff-7de451284420/mzaf_10835903392681537386.plus.aac.p.m4a",
+  "No Church in the Wild::Jay-Z": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/7e/94/1a/7e941a73-e63e-4b55-6161-5115e91cc41f/mzaf_3639990812881067167.plus.aac.p.m4a",
+  "No Ordinary Love::Sade": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/67/08/33/67083334-d0a4-4789-2781-209a62807b08/mzaf_15868067348907895243.plus.aac.p.m4a",
+  "Late::Kanye West": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/a8/75/03/a8750323-d331-7742-1055-fc1ebadfb71d/mzaf_16592034089785789189.plus.aac.p.m4a",
+  "Black Focus::Yussef Kamaal": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview124/v4/0d/a2/eb/0da2eb23-64a1-2ade-5208-13cbbd76c45a/mzaf_15947750359327050387.plus.aac.p.m4a",
+  "The Message::Nas": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview115/v4/49/63/a9/4963a98d-038d-906a-7468-609f560fb64d/mzaf_1550027994564296737.plus.aac.p.m4a",
+  "Do I Wanna Know?::Arctic Monkeys": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/df/56/89/df568936-5022-2f69-5f7d-9523078e195e/mzaf_18245985927624406520.plus.aac.p.m4a",
+  "What's Going On::Marvin Gaye": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/08/f3/f4/08f3f452-b24f-e25b-92bc-15850f1bdc6a/mzaf_14002930736666872327.plus.aac.p.m4a",
+  "Middle of the Ocean::Drake": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview112/v4/ce/45/d6/ce45d686-02f3-032e-be52-f0b6d856c496/mzaf_17595817900312361073.plus.aac.p.m4a",
+  "You Rock My World::Michael Jackson": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/13/6b/05/136b05ce-97ab-ce92-5269-e428d7f37a26/mzaf_5024330167429551572.plus.aac.p.m4a",
+  "Thriller::Michael Jackson": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/58/8c/cb/588ccb9a-ab79-4a38-43b5-d4c24ea42859/mzaf_2083607504726567992.plus.aac.p.m4a",
+  "Leave The Door Open::Silk Sonic": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview116/v4/6e/69/94/6e699446-9a2c-edaa-04b4-86f946753d7b/mzaf_10636396285236741067.plus.aac.p.m4a",
+  "Shook Ones, Pt. II::Mobb Deep": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/1c/e5/a7/1ce5a7c8-c2c8-37a6-2b05-2d698c7d72f2/mzaf_13579522246491547588.plus.aac.p.m4a",
+  "If You Know You Know::Pusha T": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/17/a2/9e/17a29e95-d8d4-6710-7a6b-a3a46bb04b33/mzaf_2579690665966126426.plus.aac.p.m4a",
+  "Devil in a New Dress::Kanye West": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/99/51/21/99512123-3f87-de36-a302-01023f9be601/mzaf_15127288582389669472.plus.aac.p.m4a",
+  "Pink + White::Frank Ocean": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/45/a8/a2/45a8a2e0-9516-86b2-66ea-e8b2bf71de68/mzaf_10773372944954067241.plus.aac.p.m4a",
+  "Seen It All::Jeezy": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview221/v4/15/c7/bf/15c7bf2e-78b7-4a5e-97e5-3d58e7cd7494/mzaf_12335889809482929341.plus.aac.p.m4a",
+  "The Hills::The Weeknd": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/0b/70/c8/0b70c898-ec23-3131-5d17-aa7417045013/mzaf_3059117378996578649.plus.aac.p.m4a",
+  "Thuggin'::Freddie Gibbs": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview126/v4/d4/38/06/d4380631-990b-b6fb-8500-510717823b45/mzaf_8614062827805577803.plus.aac.p.m4a",
+  "Money Trees::Kendrick Lamar": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview211/v4/be/7f/2f/be7f2fe2-41dd-6b9a-4957-a10ac5c62989/mzaf_17460900856492630846.plus.aac.p.m4a",
+  "FEAR.::Kendrick Lamar": "https://audio-ssl.itunes.apple.com/itunes-assets/AudioPreview125/v4/15/00/a3/1500a326-8542-349d-12c4-e479bca78d35/mzaf_4699327625557580211.plus.aac.p.m4a",
+};
+
 const LIBRARY_SONGS: PlaylistTrack[] = ([
   ["Kick, Push", "Lupe Fiasco", "Food & Liquor", 242],
   ["That's Life", "Frank Sinatra", "Nothing But The Best", 188],
@@ -1318,7 +1348,8 @@ const LIBRARY_SONGS: PlaylistTrack[] = ([
     artist,
     album,
     albumArt: albumEntry?.albumArt ?? "",
-    previewUrl: null,
+    previewUrl: SONG_PREVIEWS[`${name}::${artist}`] ?? `/api/music/preview?track=${encodeURIComponent(name)}&artist=${encodeURIComponent(artist)}`,
+    previewDuration: 30,
     duration,
   };
 });
