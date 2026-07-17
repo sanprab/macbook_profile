@@ -2,159 +2,122 @@
 
 import Image from "next/image";
 import { cn } from "@/lib/utils";
-import { Playlist, PlaylistTrack } from "../types";
+import { PlaylistTrack } from "../types";
 import { useAudio } from "@/lib/music/audio-context";
-import { Play, Pause } from "lucide-react";
+import { Pause, Play } from "lucide-react";
 
 interface HomeViewProps {
-  playlists: Playlist[];
+  albums: { id: string; name: string; artist: string; albumArt: string }[];
+  artists: { id: string; name: string; image: string; albumCount: number }[];
   songs: PlaylistTrack[];
-  onPlaylistSelect: (playlistId: string) => void;
   isMobileView: boolean;
 }
 
-export function HomeView({
-  playlists,
-  songs,
-  onPlaylistSelect,
-  isMobileView,
-}: HomeViewProps) {
-  const { playbackState, play, pause } = useAudio();
+function PlayButton({ isPlaying }: { isPlaying: boolean }) {
+  return (
+    <span className="flex h-11 w-11 items-center justify-center rounded-full bg-[#1ed760] text-black shadow-lg opacity-0 transition-opacity can-hover:group-hover:opacity-100">
+      {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="ml-0.5 h-5 w-5 fill-current" />}
+    </span>
+  );
+}
 
-  const handlePlayPlaylist = (playlist: Playlist, e: React.MouseEvent) => {
-    e.stopPropagation();
-    const isPlayingThisPlaylist =
-      playbackState.isPlaying &&
-      playbackState.currentTrack &&
-      playlist.tracks.some((t) => t.id === playbackState.currentTrack?.id);
+export function HomeView({ albums, artists, songs, isMobileView }: HomeViewProps) {
+  const { playbackState, play, pause, resume } = useAudio();
 
-    if (isPlayingThisPlaylist) {
+  const handlePlay = (song: PlaylistTrack) => {
+    if (playbackState.currentTrack?.id === song.id && playbackState.isPlaying) {
       pause();
+    } else if (playbackState.currentTrack?.id === song.id) {
+      resume();
     } else {
-      onPlaylistSelect(playlist.id);
-      const firstPlayable = playlist.tracks.find((t) => t.previewUrl);
-      if (firstPlayable) {
-        play(firstPlayable, playlist.tracks);
-      }
+      play(song, songs);
     }
   };
 
+  const currentSongId = playbackState.currentTrack?.id;
+
   return (
     <div className="h-full overflow-y-auto overflow-x-hidden">
-      <div className={cn("px-6 pb-8", isMobileView && "p-4 pb-20")}>
+      <div className={cn("px-6 pb-10", isMobileView && "p-4 pb-20")}>
         <h1 className={cn("mb-6 text-2xl font-bold", !isMobileView && "text-3xl")}>Good evening</h1>
-        <div className={cn("mb-8 grid gap-2", isMobileView ? "grid-cols-1" : "grid-cols-2 desktop:grid-cols-3")}>
-          {playlists.slice(0, 6).map((playlist) => (
-            <button
-              key={playlist.id}
-              onClick={() => onPlaylistSelect(playlist.id)}
-              className="group flex min-w-0 items-center overflow-hidden rounded-md bg-[#2a2a2a] text-left can-hover:hover:bg-[#3a3a3a]"
-            >
-              <div className="relative h-12 w-12 shrink-0 overflow-hidden">
-                {playlist.tracks[0]?.albumArt && <Image src={playlist.tracks[0].albumArt} alt="" fill className="object-cover" unoptimized />}
-              </div>
-              <span className="truncate px-3 text-sm font-bold">{playlist.name}</span>
-              <span className="ml-auto mr-2 flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-[#1ed760] text-black opacity-0 shadow-lg transition-opacity can-hover:group-hover:opacity-100">
-                <Play className="ml-0.5 h-4 w-4 fill-current" />
-              </span>
-            </button>
-          ))}
-        </div>
-        {/* Your Playlists */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">Made for you</h2>
-          <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-            {playlists.map((playlist) => {
-              const isPlaying =
-                playbackState.isPlaying &&
-                playbackState.currentTrack &&
-                playlist.tracks.some((t) => t.id === playbackState.currentTrack?.id);
 
+        <div className={cn("mb-9 grid gap-2", isMobileView ? "grid-cols-1" : "grid-cols-2 desktop:grid-cols-3")}>
+          {songs.slice(0, 6).map((song) => {
+            const isPlaying = currentSongId === song.id && playbackState.isPlaying;
+            return (
+              <button
+                key={song.id}
+                onClick={() => handlePlay(song)}
+                className="group flex min-w-0 items-center overflow-hidden rounded-md bg-[#2a2a2a] text-left can-hover:hover:bg-[#3a3a3a]"
+              >
+                <div className="relative h-12 w-12 shrink-0 overflow-hidden bg-[#333]">
+                  <Image src={song.albumArt} alt={song.album} fill className="object-cover" unoptimized />
+                </div>
+                <span className="truncate px-3 text-sm font-bold">{song.name}</span>
+                <span className="ml-auto mr-2"><PlayButton isPlaying={isPlaying} /></span>
+              </button>
+            );
+          })}
+        </div>
+
+        <section className="mb-9">
+          <h2 className="mb-4 text-2xl font-bold">Recently played</h2>
+          <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+            {songs.slice(0, 10).map((song) => {
+              const isPlaying = currentSongId === song.id && playbackState.isPlaying;
               return (
-                <div
-                  key={playlist.id}
-                  onClick={() => onPlaylistSelect(playlist.id)}
-                  className="group cursor-pointer flex-shrink-0 w-40 rounded-md p-3 can-hover:hover:bg-[#1f1f1f]"
+                <button
+                  key={song.id}
+                  onClick={() => handlePlay(song)}
+                  className="group w-40 shrink-0 rounded-md p-3 text-left can-hover:hover:bg-[#1f1f1f]"
                 >
-                  <div className="relative aspect-square rounded-md overflow-hidden mb-3 bg-muted">
-                    {playlist.tracks[0]?.albumArt ? (
-                      <Image
-                        src={playlist.tracks[0].albumArt}
-                        alt={playlist.name}
-                        fill
-                        className="object-cover"
-                        unoptimized
-                      />
-                    ) : (
-                      <div className="w-full h-full bg-gradient-to-br from-zinc-700 to-zinc-800" />
-                    )}
-                    <div
-                      className="absolute inset-0 bg-black/0 can-hover:group-hover:bg-black/40 transition-colors flex items-center justify-center"
-                      onClick={(e) => handlePlayPlaylist(playlist, e)}
-                    >
-                      {isPlaying ? (
-                        <Pause className="w-10 h-10 text-white opacity-0 can-hover:group-hover:opacity-100 transition-opacity" />
-                      ) : (
-                        <Play className="w-10 h-10 text-white opacity-0 can-hover:group-hover:opacity-100 transition-opacity" />
-                      )}
+                  <div className="relative mb-3 aspect-square overflow-hidden rounded-md bg-muted">
+                    <Image src={song.albumArt} alt={song.album} fill className="object-cover" unoptimized />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors can-hover:group-hover:bg-black/40">
+                      <PlayButton isPlaying={isPlaying} />
                     </div>
                   </div>
-                  <p className="text-sm font-medium truncate">{playlist.name}</p>
-                  <p className="text-xs text-muted-foreground">
-                    {playlist.tracks.length} songs
-                  </p>
-                </div>
+                  <p className="truncate text-sm font-medium">{song.name}</p>
+                  <p className="truncate text-xs text-muted-foreground">{song.artist}</p>
+                </button>
               );
             })}
           </div>
-        </div>
+        </section>
 
-        {/* Recently played */}
-        <div className="mb-8">
-          <h2 className="text-2xl font-bold mb-4">Recently played</h2>
+        <section className="mb-9">
+          <h2 className="mb-4 text-2xl font-bold">Albums for you</h2>
           <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
-            {songs.map((song) => {
-              const isPlaying =
-                playbackState.isPlaying &&
-                playbackState.currentTrack?.id === song.id;
-
-              return (
-                <div
-                  key={song.id}
-                  onClick={() => song.previewUrl && play(song, songs)}
-                  className={cn(
-                  "group flex-shrink-0 w-40 rounded-md p-3 can-hover:hover:bg-[#1f1f1f]",
-                    song.previewUrl && "cursor-pointer"
-                  )}
-                >
-                  <div className="relative aspect-square rounded-md overflow-hidden mb-3 bg-muted">
-                    <Image
-                      src={song.albumArt}
-                      alt={song.name}
-                      fill
-                      className="object-cover"
-                      unoptimized
-                    />
-                    {song.previewUrl && (
-                      <div className="absolute inset-0 bg-black/0 can-hover:group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                        {isPlaying ? (
-                          <Pause className="w-10 h-10 text-white opacity-0 can-hover:group-hover:opacity-100 transition-opacity" />
-                        ) : (
-                          <Play className="w-10 h-10 text-white opacity-0 can-hover:group-hover:opacity-100 transition-opacity" />
-                        )}
-                      </div>
-                    )}
-                  </div>
-                  <p className="text-sm font-medium truncate">{song.name}</p>
-                  <p className="text-xs text-muted-foreground truncate">
-                    {song.artist}
-                  </p>
+            {albums.slice(0, 10).map((album) => (
+              <div key={album.id} className="w-40 shrink-0 rounded-md p-3 can-hover:hover:bg-[#1f1f1f]">
+                <div className="relative mb-3 aspect-square overflow-hidden rounded-md bg-muted">
+                  <Image src={album.albumArt} alt={album.name} fill className="object-cover" unoptimized />
                 </div>
-              );
-            })}
+                <p className="truncate text-sm font-medium">{album.name}</p>
+                <p className="truncate text-xs text-muted-foreground">{album.artist}</p>
+              </div>
+            ))}
           </div>
-        </div>
+        </section>
 
+        <section>
+          <h2 className="mb-4 text-2xl font-bold">Artists you may like</h2>
+          <div className="flex gap-4 overflow-x-auto pb-2 scrollbar-hide">
+            {artists.slice(0, 10).map((artist) => (
+              <div key={artist.id} className="w-40 shrink-0 rounded-md p-3 text-center can-hover:hover:bg-[#1f1f1f]">
+                <div className="relative mx-auto mb-3 aspect-square overflow-hidden rounded-full bg-muted">
+                  {artist.image ? (
+                    <Image src={artist.image} alt={artist.name} fill className="object-cover" unoptimized />
+                  ) : (
+                    <span className="flex h-full items-center justify-center text-3xl font-semibold">{artist.name.charAt(0)}</span>
+                  )}
+                </div>
+                <p className="truncate text-sm font-medium">{artist.name}</p>
+                <p className="text-xs text-muted-foreground">Artist</p>
+              </div>
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   );

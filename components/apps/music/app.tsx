@@ -154,9 +154,9 @@ export default function App({ isDesktop = false }: AppProps) {
       case "home":
         return (
           <HomeView
-            playlists={playlists}
+            albums={albums}
+            artists={artists}
             songs={songs}
-            onPlaylistSelect={(id) => handleViewSelect("playlist", id)}
             isMobileView={isMobileView}
           />
         );
@@ -183,9 +183,9 @@ export default function App({ isDesktop = false }: AppProps) {
           <PlaylistView playlist={selectedPlaylist} isMobileView={isMobileView} />
         ) : (
           <HomeView
-            playlists={playlists}
+            albums={albums}
+            artists={artists}
             songs={songs}
-            onPlaylistSelect={(id) => handleViewSelect("playlist", id)}
             isMobileView={isMobileView}
           />
         );

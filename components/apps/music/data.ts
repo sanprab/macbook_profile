@@ -1,4 +1,4 @@
-import { Playlist } from "./types";
+import { Playlist, PlaylistTrack } from "./types";
 
 // Retained seed data for the desktop media widget; it is not shown as a playlist.
 const LEGACY_PLAYLISTS: Playlist[] = [
@@ -1120,7 +1120,7 @@ const ALBUM_CATALOG: Array<Pick<AlbumCatalogEntry, "name" | "artist">> = [
   { name: "The Masquerade", artist: "George Benson" },
   { name: "Extension of a Man", artist: "Donny Hathaway" },
   { name: "Nothing Was the Same", artist: "Drake" },
-  { name: "1982", artist: "Haircuts for Men" },
+  { name: "What Kinda Music", artist: "Tom Misch & Yussef Dayes" },
   { name: "Open This Wall", artist: "berlioz" },
   { name: "Remember Shakti", artist: "John McLaughlin" },
   { name: "The Best of Sade", artist: "Sade" },
@@ -1194,7 +1194,7 @@ const ALBUM_ARTWORK: Record<string, string> = {
   "The Best of Sade::Sade": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e023dc656614ec4e9426c858b49",
   "Graduation::Kanye West": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02f1376598af09249b6d699f7c",
   "2001::Dr. Dre": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02a71c21048a9ec9271800be45",
-  "1982::Haircuts for Men": "https://f4.bcbits.com/img/a3836821021_10.jpg",
+  "What Kinda Music::Tom Misch & Yussef Dayes": "https://cdn-images.dzcdn.net/images/cover/275b6b76355b494d2faa52a75a1174ab/1000x1000-000000-80-0-0.jpg",
   "Bandana::Freddie Gibbs": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/56/ac/01/56ac0168-a135-412e-c949-0d550fc19d6a/886448232902.jpg/600x600bb.jpg",
   "ASTROWORLD::Travis Scott": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/e7/49/8f/e7498f65-df8f-bead-d6e3-2a8d4d642a79/886447235317.jpg/600x600bb.jpg",
   "Kaleidoscope Dream::Miguel": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a1/56/ac/a156acb2-068e-a616-3e56-86ca656c14ce/886443632943.jpg/600x600bb.jpg",
@@ -1229,7 +1229,7 @@ const ARTIST_PROFILE_IMAGES: Partial<Record<string, string>> = {
   "George Benson": "https://cdn-images.dzcdn.net/images/artist/94af08fe634678e2288766fbb6cb3cd1/1000x1000-000000-80-0-0.jpg",
   "Green Day": "https://cdn-images.dzcdn.net/images/artist/690381cc69a21802b5d95b0460afb6a3/1000x1000-000000-80-0-0.jpg",
   Griselda: "https://cdn-images.dzcdn.net/images/artist/13b3467185f657b23d6d311e00f6e8cc/1000x1000-000000-80-0-0.jpg",
-  "Haircuts for Men": "https://cdn-images.dzcdn.net/images/artist/6a288ed7ca8cab2a5a43256e0ba74906/1000x1000-000000-80-0-0.jpg",
+  "Tom Misch & Yussef Dayes": "https://cdn-images.dzcdn.net/images/artist/fa4ef37016d821bcb5207f8dcaad0b7a/1000x1000-000000-80-0-0.jpg",
   "J. Cole": "https://cdn-images.dzcdn.net/images/artist/dc8d97f19855c8ea3f15ee6db784198e/1000x1000-000000-80-0-0.jpg",
   "Jay-Z": "https://cdn-images.dzcdn.net/images/artist/a59aabd18e84d732ce3b9f6f5c4e5f50/1000x1000-000000-80-0-0.jpg",
   Jeezy: "https://cdn-images.dzcdn.net/images/artist/de4c1f9aa7eb2240a74c085a58de9244/1000x1000-000000-80-0-0.jpg",
@@ -1275,6 +1275,54 @@ export function getAlbums(): AlbumCatalogEntry[] {
   return DEFAULT_ALBUMS;
 }
 
+// A concise, static library of representative tracks from the album catalog.
+const LIBRARY_SONGS: PlaylistTrack[] = ([
+  ["Kick, Push", "Lupe Fiasco", "Food & Liquor", 242],
+  ["That's Life", "Frank Sinatra", "Nothing But The Best", 188],
+  ["Renegade", "Jay-Z", "The Blueprint", 337],
+  ["Roc Boys (And the Winner Is...)", "Jay-Z", "American Gangster", 256],
+  ["Inglorious Bastards", "Clipse", "Let God Sort Em Out", 214],
+  ["Best Behavior", "Cardo Got Wings", "Game Related", 192],
+  ["Feel No Ways", "Drake", "Views", 236],
+  ["Wesley's Theory", "Kendrick Lamar", "To Pimp a Butterfly", 287],
+  ["No Church in the Wild", "Jay-Z", "Watch the Throne", 272],
+  ["No Ordinary Love", "Sade", "The Ultimate Collection", 428],
+  ["Late", "Kanye West", "Late Registration", 230],
+  ["Black Focus", "Yussef Kamaal", "Black Focus", 267],
+  ["The Message", "Nas", "It Was Written", 204],
+  ["Do I Wanna Know?", "Arctic Monkeys", "AM", 272],
+  ["Scottie Pippen", "Curren$y", "Fetti", 228],
+  ["What's Going On", "Marvin Gaye", "What's Going On", 233],
+  ["Middle of the Ocean", "Drake", "Her Loss", 356],
+  ["You Rock My World", "Michael Jackson", "Invincible", 313],
+  ["Thriller", "Michael Jackson", "Thriller", 357],
+  ["Leave The Door Open", "Silk Sonic", "An Evening with Silk Sonic", 242],
+  ["Dead Presidents II", "Jay-Z", "Reasonable Doubt", 284],
+  ["Shook Ones, Pt. II", "Mobb Deep", "The Infamous", 264],
+  ["If You Know You Know", "Pusha T", "Daytona", 207],
+  ["Devil in a New Dress", "Kanye West", "My Beautiful Dark Twisted Fantasy", 351],
+  ["Pink + White", "Frank Ocean", "Channel Orange", 185],
+  ["Seen It All", "Jeezy", "Seen It All", 220],
+  ["The Hills", "The Weeknd", "Beauty Behind the Madness", 242],
+  ["Thuggin'", "Freddie Gibbs", "Piñata", 223],
+  ["Money Trees", "Kendrick Lamar", "good kid, m.A.A.d city", 386],
+  ["FEAR.", "Kendrick Lamar", "DAMN.", 460],
+] satisfies Array<[string, string, string, number]>).map(([name, artist, album, duration]) => {
+  const albumEntry = DEFAULT_ALBUMS.find(
+    (candidate) => candidate.name === album && candidate.artist === artist
+  );
+
+  return {
+    id: `${name}-${artist}-${album}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
+    name,
+    artist,
+    album,
+    albumArt: albumEntry?.albumArt ?? "",
+    previewUrl: null,
+    duration,
+  };
+});
+
 // Build the artist library from the album catalog so it remains available without playlists.
 export function getArtistsFromAlbums(): {
   id: string;
@@ -1304,19 +1352,9 @@ export function getArtistsFromAlbums(): {
   return Array.from(artistMap.values()).sort((a, b) => a.name.localeCompare(b.name));
 }
 
-// Get all songs from playlists
-export function getAllSongs() {
-  const songs = new Map<string, (typeof DEFAULT_PLAYLISTS)[0]["tracks"][0]>();
-
-  for (const playlist of DEFAULT_PLAYLISTS) {
-    for (const track of playlist.tracks) {
-      if (!songs.has(track.id)) {
-        songs.set(track.id, track);
-      }
-    }
-  }
-
-  return Array.from(songs.values());
+// The Songs view is intentionally independent from user playlists.
+export function getAllSongs(): PlaylistTrack[] {
+  return LIBRARY_SONGS;
 }
 
 // Get the featured playlist
