@@ -4,7 +4,7 @@ import { useMemo } from "react";
 import { Playlist } from "@/components/apps/music/types";
 import {
   DEFAULT_PLAYLISTS,
-  getAlbumsFromPlaylists,
+  getAlbums,
   getArtistsFromPlaylists,
   getAllSongs,
   getFeaturedPlaylist,
@@ -13,7 +13,7 @@ import {
 interface UseMusicResult {
   playlists: Playlist[];
   featuredPlaylist: Playlist;
-  albums: ReturnType<typeof getAlbumsFromPlaylists>;
+  albums: ReturnType<typeof getAlbums>;
   artists: ReturnType<typeof getArtistsFromPlaylists>;
   songs: ReturnType<typeof getAllSongs>;
 }
@@ -21,7 +21,7 @@ interface UseMusicResult {
 export function useMusic(): UseMusicResult {
   const playlists = useMemo(() => DEFAULT_PLAYLISTS, []);
   const featuredPlaylist = useMemo(() => getFeaturedPlaylist(), []);
-  const albums = useMemo(() => getAlbumsFromPlaylists(), []);
+  const albums = useMemo(() => getAlbums(), []);
   const artists = useMemo(() => getArtistsFromPlaylists(), []);
   const songs = useMemo(() => getAllSongs(), []);
 

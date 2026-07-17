@@ -1061,40 +1061,155 @@ export const DEFAULT_PLAYLISTS: Playlist[] = [
   },
 ];
 
-// Get all unique albums from playlists
-export function getAlbumsFromPlaylists(): {
+type AlbumCatalogEntry = {
   id: string;
   name: string;
   artist: string;
   albumArt: string;
   trackCount: number;
-}[] {
-  const albumMap = new Map<
-    string,
-    { id: string; name: string; artist: string; albumArt: string; trackCount: number }
-  >();
+};
 
-  for (const playlist of DEFAULT_PLAYLISTS) {
-    for (const track of playlist.tracks) {
-      const albumKey = `${track.album}-${track.artist}`;
-      if (!albumMap.has(albumKey)) {
-        albumMap.set(albumKey, {
-          id: albumKey,
-          name: track.album,
-          artist: track.artist,
-          albumArt: track.albumArt,
-          trackCount: 1,
-        });
-      } else {
-        const album = albumMap.get(albumKey);
-        if (album) {
-          album.trackCount++;
-        }
-      }
-    }
-  }
+const ALBUM_CATALOG: Array<Pick<AlbumCatalogEntry, "name" | "artist">> = [
+  { name: "Food & Liquor", artist: "Lupe Fiasco" },
+  { name: "November", artist: "SiR" },
+  { name: "The Blueprint", artist: "Jay-Z" },
+  { name: "American Gangster", artist: "Jay-Z" },
+  { name: "Let God Sort Em Out", artist: "Clipse" },
+  { name: "Game Related", artist: "Cardo Got Wings" },
+  { name: "56 Nights", artist: "Future" },
+  { name: "Views", artist: "Drake" },
+  { name: "To Pimp a Butterfly", artist: "Kendrick Lamar" },
+  { name: "Watch the Throne", artist: "Jay-Z" },
+  { name: "The Ultimate Collection", artist: "Sade" },
+  { name: "Late Registration", artist: "Kanye West" },
+  { name: "Days Before Rodeo", artist: "Travis Scott" },
+  { name: "It Was Written", artist: "Nas" },
+  { name: "The Warm Up", artist: "J. Cole" },
+  { name: "Friday Night Lights", artist: "J. Cole" },
+  { name: "What's Going On", artist: "Marvin Gaye" },
+  { name: "Her Loss", artist: "Drake" },
+  { name: "Jesus Piece", artist: "The Game" },
+  { name: "The Documentary 2", artist: "The Game" },
+  { name: "Invincible", artist: "Michael Jackson" },
+  { name: "Thriller", artist: "Michael Jackson" },
+  { name: "An Evening with Silk Sonic", artist: "Silk Sonic" },
+  { name: "Reasonable Doubt", artist: "Jay-Z" },
+  { name: "The Infamous", artist: "Mobb Deep" },
+  { name: "Daytona", artist: "Pusha T" },
+  { name: "My Beautiful Dark Twisted Fantasy", artist: "Kanye West" },
+  { name: "Channel Orange", artist: "Frank Ocean" },
+  { name: "Seen It All", artist: "Jeezy" },
+  { name: "Beauty Behind the Madness", artist: "The Weeknd" },
+  { name: "Big Bossin Vol. 2", artist: "Payroll Giovanni" },
+  { name: "Piñata", artist: "Freddie Gibbs" },
+  { name: "good kid, m.A.A.d city", artist: "Kendrick Lamar" },
+  { name: "DAMN.", artist: "Kendrick Lamar" },
+  { name: "Rodeo", artist: "Travis Scott" },
+  { name: "Birds in the Trap Sing McKnight", artist: "Travis Scott" },
+  { name: "Not All Heroes Wear Capes", artist: "Metro Boomin" },
+  { name: "Fetti", artist: "Curren$y" },
+  { name: "Big Boi and Dre Present... OutKast", artist: "OutKast" },
+  { name: "WWCD", artist: "Griselda" },
+  { name: "Workin' with the Miles Davis Quintet", artist: "Miles Davis Quintet" },
+  { name: "Tell It Like It Is", artist: "Aaron Neville" },
+  { name: "Piano Concerto No. 2", artist: "Sergei Rachmaninoff" },
+  { name: "Black Focus", artist: "Yussef Kamaal" },
+  { name: "AM", artist: "Arctic Monkeys" },
+  { name: "Off the Wall", artist: "Michael Jackson" },
+  { name: "Waltz for Debby", artist: "Bill Evans" },
+  { name: "The Masquerade", artist: "George Benson" },
+  { name: "Extension of a Man", artist: "Donny Hathaway" },
+  { name: "Nothing Was the Same", artist: "Drake" },
+  { name: "1982", artist: "Haircuts for Men" },
+  { name: "Distant Relatives", artist: "Nas & Damian Marley" },
+  { name: "Open This Wall", artist: "berlioz" },
+  { name: "Remember Shakti", artist: "John McLaughlin" },
+  { name: "The Best of Sade", artist: "Sade" },
+  { name: "Graduation", artist: "Kanye West" },
+  { name: "2001", artist: "Dr. Dre" },
+  { name: "All Eyez on Me", artist: "2Pac" },
+  { name: "Bandana", artist: "Freddie Gibbs" },
+  { name: "ASTROWORLD", artist: "Travis Scott" },
+  { name: "As I Am", artist: "Alicia Keys" },
+  { name: "Kaleidoscope Dream", artist: "Miguel" },
+];
 
-  return Array.from(albumMap.values());
+const ALBUM_ARTWORK: Record<string, string> = {
+  "Game Related::Cardo Got Wings": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02e2769e8c3cab5c4689734cb8",
+  "Food & Liquor::Lupe Fiasco": "https://cdn-images.dzcdn.net/images/cover/33d47a84a7b7f03336a1832ca942bb30/1000x1000-000000-80-0-0.jpg",
+  "November::SiR": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/e0/a7/99/e0a7996d-3853-07ec-281a-ad0e5067715f/859724289075_cover.jpg/600x600bb.jpg",
+  "The Blueprint::Jay-Z": "https://cdn-images.dzcdn.net/images/cover/1e6c4c38c36a19ea5cdbce45e7f1413b/1000x1000-000000-80-0-0.jpg",
+  "American Gangster::Jay-Z": "https://cdn-images.dzcdn.net/images/cover/4f6b936bd0864edc9257bd7d36dfee26/1000x1000-000000-80-0-0.jpg",
+  "Let God Sort Em Out::Clipse": "https://cdn-images.dzcdn.net/images/cover/f4ff7bcce83ed34f3cba56b8b0a66a35/1000x1000-000000-80-0-0.jpg",
+  "56 Nights::Future": "https://cdn-images.dzcdn.net/images/cover/dba73b589fc92b701a29cf43eed330f5/1000x1000-000000-80-0-0.jpg",
+  "Views::Drake": "https://cdn-images.dzcdn.net/images/cover/56bdb7a86a27fadb96332c0c8f1b8e81/1000x1000-000000-80-0-0.jpg",
+  "To Pimp a Butterfly::Kendrick Lamar": "https://cdn-images.dzcdn.net/images/cover/3cb4c99dc0f8b954b8b7470e72df8152/1000x1000-000000-80-0-0.jpg",
+  "Watch the Throne::Jay-Z": "https://cdn-images.dzcdn.net/images/cover/5ff776f44edc5f7fbef5fa2169006f29/1000x1000-000000-80-0-0.jpg",
+  "The Ultimate Collection::Sade": "https://cdn-images.dzcdn.net/images/cover/e2fd836cedf9336dc5c725dc3c4df5e0/1000x1000-000000-80-0-0.jpg",
+  "Late Registration::Kanye West": "https://cdn-images.dzcdn.net/images/cover/7cbfc94084895e59b5a313a98ab1bd9a/1000x1000-000000-80-0-0.jpg",
+  "Days Before Rodeo::Travis Scott": "https://cdn-images.dzcdn.net/images/cover/b8be81921aa5990f1cd3b7499d4d6501/1000x1000-000000-80-0-0.jpg",
+  "It Was Written::Nas": "https://cdn-images.dzcdn.net/images/cover/dc3d7abec463b08a0586c4e5680e2c22/1000x1000-000000-80-0-0.jpg",
+  "The Warm Up::J. Cole": "https://cdn-images.dzcdn.net/images/cover/c4d4763f2c23be3e3de76f953e576a87/1000x1000-000000-80-0-0.jpg",
+  "Friday Night Lights::J. Cole": "https://cdn-images.dzcdn.net/images/cover/5cfe3cdcc7a641397866cc1b8dfd1488/1000x1000-000000-80-0-0.jpg",
+  "What's Going On::Marvin Gaye": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02b36949bee43217351961ffbc",
+  "Her Loss::Drake": "https://cdn-images.dzcdn.net/images/cover/eb7bc1ba10726f8864821df4390a05e6/1000x1000-000000-80-0-0.jpg",
+  "Jesus Piece::The Game": "https://cdn-images.dzcdn.net/images/cover/a78ec49f2286dd8bc501eabcfe5400bb/1000x1000-000000-80-0-0.jpg",
+  "The Documentary 2::The Game": "https://cdn-images.dzcdn.net/images/cover/4011089ddc29a7c4cfd499354de540d1/1000x1000-000000-80-0-0.jpg",
+  "Invincible::Michael Jackson": "https://cdn-images.dzcdn.net/images/cover/4e98a7af653c67d1030a763a20976c57/1000x1000-000000-80-0-0.jpg",
+  "Thriller::Michael Jackson": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02db4232d94539e4165951e749",
+  "An Evening with Silk Sonic::Silk Sonic": "https://cdn-images.dzcdn.net/images/cover/faada8a8c545b2e3d454267b55c82e14/1000x1000-000000-80-0-0.jpg",
+  "Reasonable Doubt::Jay-Z": "https://cdn-images.dzcdn.net/images/cover/88d1a92142197ab0480ae56407742828/1000x1000-000000-80-0-0.jpg",
+  "The Infamous::Mobb Deep": "https://cdn-images.dzcdn.net/images/cover/d6e9c1a3ce072c0ecfe60abff98f06b9/1000x1000-000000-80-0-0.jpg",
+  "Daytona::Pusha T": "https://cdn-images.dzcdn.net/images/cover/8285385994596b0be8632d6932d0c642/1000x1000-000000-80-0-0.jpg",
+  "My Beautiful Dark Twisted Fantasy::Kanye West": "https://cdn-images.dzcdn.net/images/cover/58f2b66205a31c42cd1d340b99735d7c/1000x1000-000000-80-0-0.jpg",
+  "Channel Orange::Frank Ocean": "https://cdn-images.dzcdn.net/images/cover/519400e29d268f449cf00af879e71af6/1000x1000-000000-80-0-0.jpg",
+  "Seen It All::Jeezy": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0215878b043d6790d8f2b290e1",
+  "Beauty Behind the Madness::The Weeknd": "https://cdn-images.dzcdn.net/images/cover/eea9f7fc913300e40307a0ff70dc73cf/1000x1000-000000-80-0-0.jpg",
+  "Big Bossin Vol. 2::Payroll Giovanni": "https://cdn-images.dzcdn.net/images/cover/ff2a9dfeda91a8241d9bc41835434d67/1000x1000-000000-80-0-0.jpg",
+  "Piñata::Freddie Gibbs": "https://cdn-images.dzcdn.net/images/cover/ddd9a6ea8b9f33a5632b693a54708961/1000x1000-000000-80-0-0.jpg",
+  "good kid, m.A.A.d city::Kendrick Lamar": "https://cdn-images.dzcdn.net/images/cover/ec9187e7d91dd98fa218bbf9c6fe7179/1000x1000-000000-80-0-0.jpg",
+  "Rodeo::Travis Scott": "https://cdn-images.dzcdn.net/images/cover/c6fe182fb0f3485428906c7b21873046/1000x1000-000000-80-0-0.jpg",
+  "Birds in the Trap Sing McKnight::Travis Scott": "https://cdn-images.dzcdn.net/images/cover/b4edc0fc32f430870375f8fb8f825ee7/1000x1000-000000-80-0-0.jpg",
+  "Not All Heroes Wear Capes::Metro Boomin": "https://cdn-images.dzcdn.net/images/cover/7288c4a7cb8112ed0f301d25ec733d6c/1000x1000-000000-80-0-0.jpg",
+  "Fetti::Curren$y": "https://cdn-images.dzcdn.net/images/cover/8ce0075d3d458a4f073b4cea614f1387/1000x1000-000000-80-0-0.jpg",
+  "WWCD::Griselda": "https://cdn-images.dzcdn.net/images/cover/e31e4ca43e768583b93fe76d79a2f4fa/1000x1000-000000-80-0-0.jpg",
+  "Tell It Like It Is::Aaron Neville": "https://cdn-images.dzcdn.net/images/cover/6fcf0e276979d8c7ea5182096b65b732/1000x1000-000000-80-0-0.jpg",
+  "Piano Concerto No. 2::Sergei Rachmaninoff": "https://cdn-images.dzcdn.net/images/cover/e9592647d0fe869248cbbaf9ab5332c2/1000x1000-000000-80-0-0.jpg",
+  "Black Focus::Yussef Kamaal": "https://cdn-images.dzcdn.net/images/cover/6166cbef6458c6cb096d40efe3ffad93/1000x1000-000000-80-0-0.jpg",
+  "AM::Arctic Monkeys": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e024ae1c4c5c45aabe565499163",
+  "Off the Wall::Michael Jackson": "https://cdn-images.dzcdn.net/images/cover/9a1084ee1062fd9cd8dbeb1a8978351d/1000x1000-000000-80-0-0.jpg",
+  "Waltz for Debby::Bill Evans": "https://cdn-images.dzcdn.net/images/cover/9cd82f57f844e3972b364abd197e8c43/1000x1000-000000-80-0-0.jpg",
+  "The Masquerade::George Benson": "https://cdn-images.dzcdn.net/images/cover/dc75fada34ce528d0fcccfdc751e1751/1000x1000-000000-80-0-0.jpg",
+  "Extension of a Man::Donny Hathaway": "https://cdn-images.dzcdn.net/images/cover/68e7f4c561a7987647d9193daf00ed31/1000x1000-000000-80-0-0.jpg",
+  "Nothing Was the Same::Drake": "https://cdn-images.dzcdn.net/images/cover/c98b7299c8bd3d27e7cb27c12490a091/1000x1000-000000-80-0-0.jpg",
+  "Distant Relatives::Nas & Damian Marley": "https://cdn-images.dzcdn.net/images/cover/de8e421db99c59f202d1c936767eb506/1000x1000-000000-80-0-0.jpg",
+  "DAMN.::Kendrick Lamar": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e028b52c6b9bc4e43d873869699",
+  "Big Boi and Dre Present... OutKast::OutKast": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0233ff7ff98c3b4de675568516",
+  "Workin' with the Miles Davis Quintet::Miles Davis Quintet": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02aa1f96806a140a89f8fe85c4",
+  "Open This Wall::berlioz": "https://is1-ssl.mzstatic.com/image/thumb/Music221/v4/27/69/63/2769636a-f6c0-ad35-07b0-c86109fa3679/dj.cvzxaddo.jpg/600x600bb.jpg",
+  "Remember Shakti::John McLaughlin": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02267effd61b9f401772544f7a",
+  "The Best of Sade::Sade": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e023dc656614ec4e9426c858b49",
+  "Graduation::Kanye West": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02f1376598af09249b6d699f7c",
+  "2001::Dr. Dre": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02a71c21048a9ec9271800be45",
+  "All Eyez on Me::2Pac": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02073aebff28f79959d2543596",
+  "1982::Haircuts for Men": "https://f4.bcbits.com/img/a3836821021_10.jpg",
+  "Bandana::Freddie Gibbs": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/56/ac/01/56ac0168-a135-412e-c949-0d550fc19d6a/886448232902.jpg/600x600bb.jpg",
+  "ASTROWORLD::Travis Scott": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/e7/49/8f/e7498f65-df8f-bead-d6e3-2a8d4d642a79/886447235317.jpg/600x600bb.jpg",
+  "As I Am::Alicia Keys": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/c7/88/df/c788dffe-d06f-8923-ad61-a6194daf6616/888880809919.jpg/600x600bb.jpg",
+  "Kaleidoscope Dream::Miguel": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a1/56/ac/a156acb2-068e-a616-3e56-86ca656c14ce/886443632943.jpg/600x600bb.jpg",
+};
+
+// Static artwork keeps the library fast: no cover lookups happen during page load.
+const DEFAULT_ALBUMS: AlbumCatalogEntry[] = ALBUM_CATALOG.map(({ name, artist }) => ({
+  id: `${name}-${artist}`.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
+  name,
+  artist,
+  albumArt: ALBUM_ARTWORK[`${name}::${artist}`] ?? "",
+  trackCount: 0,
+}));
+
+export function getAlbums(): AlbumCatalogEntry[] {
+  return DEFAULT_ALBUMS;
 }
 
 // Get all unique artists from playlists
