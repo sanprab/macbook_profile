@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ArtistsViewProps {
-  artists: { id: string; name: string; image: string; trackCount: number }[];
+  artists: { id: string; name: string; image: string; albumCount: number }[];
   isMobileView: boolean;
 }
 
@@ -24,17 +24,23 @@ export function ArtistsView({ artists, isMobileView }: ArtistsViewProps) {
             {artists.map((artist) => (
               <div key={artist.id} className="text-center">
                 <div className="relative aspect-square rounded-full overflow-hidden mb-3 bg-muted mx-auto">
-                  <Image
-                    src={artist.image}
-                    alt={artist.name}
-                    fill
-                    className="object-cover"
-                    unoptimized
-                  />
+                  {artist.image ? (
+                    <Image
+                      src={artist.image}
+                      alt={artist.name}
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                  ) : (
+                    <span className="flex h-full w-full items-center justify-center text-2xl font-semibold">
+                      {artist.name.charAt(0)}
+                    </span>
+                  )}
                 </div>
                 <p className="text-sm font-medium truncate">{artist.name}</p>
                 <p className="text-xs text-muted-foreground">
-                  {artist.trackCount} {artist.trackCount === 1 ? "song" : "songs"}
+                  {artist.albumCount} {artist.albumCount === 1 ? "album" : "albums"}
                 </p>
               </div>
             ))}

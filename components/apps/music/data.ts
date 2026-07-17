@@ -1121,16 +1121,13 @@ const ALBUM_CATALOG: Array<Pick<AlbumCatalogEntry, "name" | "artist">> = [
   { name: "Extension of a Man", artist: "Donny Hathaway" },
   { name: "Nothing Was the Same", artist: "Drake" },
   { name: "1982", artist: "Haircuts for Men" },
-  { name: "Distant Relatives", artist: "Nas & Damian Marley" },
   { name: "Open This Wall", artist: "berlioz" },
   { name: "Remember Shakti", artist: "John McLaughlin" },
   { name: "The Best of Sade", artist: "Sade" },
   { name: "Graduation", artist: "Kanye West" },
   { name: "2001", artist: "Dr. Dre" },
-  { name: "All Eyez on Me", artist: "2Pac" },
   { name: "Bandana", artist: "Freddie Gibbs" },
   { name: "ASTROWORLD", artist: "Travis Scott" },
-  { name: "As I Am", artist: "Alicia Keys" },
   { name: "Kaleidoscope Dream", artist: "Miguel" },
   { name: "Currents", artist: "Tame Impala" },
   { name: "American Idiot", artist: "Green Day" },
@@ -1139,7 +1136,6 @@ const ALBUM_CATALOG: Array<Pick<AlbumCatalogEntry, "name" | "artist">> = [
   { name: "Greatest Hits", artist: "The Isley Brothers" },
   { name: "Greatest", artist: "Bee Gees" },
   { name: "Nothing But The Best", artist: "Frank Sinatra" },
-  { name: "Bad", artist: "Michael Jackson" },
   { name: "Dawn FM", artist: "The Weeknd" },
   { name: "NEVER ENOUGH", artist: "Daniel Caesar" },
   { name: "Into The Late Night", artist: "Larry June" },
@@ -1190,7 +1186,6 @@ const ALBUM_ARTWORK: Record<string, string> = {
   "The Masquerade::George Benson": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/cb/37/9a/cb379acc-ee1e-920e-c287-6a8a0ed4c099/603497888269.jpg/600x600bb.jpg",
   "Extension of a Man::Donny Hathaway": "https://cdn-images.dzcdn.net/images/cover/68e7f4c561a7987647d9193daf00ed31/1000x1000-000000-80-0-0.jpg",
   "Nothing Was the Same::Drake": "https://cdn-images.dzcdn.net/images/cover/c98b7299c8bd3d27e7cb27c12490a091/1000x1000-000000-80-0-0.jpg",
-  "Distant Relatives::Nas & Damian Marley": "https://cdn-images.dzcdn.net/images/cover/de8e421db99c59f202d1c936767eb506/1000x1000-000000-80-0-0.jpg",
   "DAMN.::Kendrick Lamar": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e028b52c6b9bc4e43d873869699",
   "Big Boi and Dre Present... OutKast::OutKast": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0233ff7ff98c3b4de675568516",
   "Workin' with the Miles Davis Quintet::Miles Davis Quintet": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02aa1f96806a140a89f8fe85c4",
@@ -1199,11 +1194,9 @@ const ALBUM_ARTWORK: Record<string, string> = {
   "The Best of Sade::Sade": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e023dc656614ec4e9426c858b49",
   "Graduation::Kanye West": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02f1376598af09249b6d699f7c",
   "2001::Dr. Dre": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02a71c21048a9ec9271800be45",
-  "All Eyez on Me::2Pac": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e02073aebff28f79959d2543596",
   "1982::Haircuts for Men": "https://f4.bcbits.com/img/a3836821021_10.jpg",
   "Bandana::Freddie Gibbs": "https://is1-ssl.mzstatic.com/image/thumb/Music113/v4/56/ac/01/56ac0168-a135-412e-c949-0d550fc19d6a/886448232902.jpg/600x600bb.jpg",
   "ASTROWORLD::Travis Scott": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/e7/49/8f/e7498f65-df8f-bead-d6e3-2a8d4d642a79/886447235317.jpg/600x600bb.jpg",
-  "As I Am::Alicia Keys": "https://is1-ssl.mzstatic.com/image/thumb/Music114/v4/c7/88/df/c788dffe-d06f-8923-ad61-a6194daf6616/888880809919.jpg/600x600bb.jpg",
   "Kaleidoscope Dream::Miguel": "https://is1-ssl.mzstatic.com/image/thumb/Music125/v4/a1/56/ac/a156acb2-068e-a616-3e56-86ca656c14ce/886443632943.jpg/600x600bb.jpg",
   "Currents::Tame Impala": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0254e56e10e3c0fdfc12a5b784",
   "American Idiot::Green Day": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e0202efa4afce8948778c9678f3",
@@ -1212,10 +1205,61 @@ const ALBUM_ARTWORK: Record<string, string> = {
   "Greatest Hits::The Isley Brothers": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02fde1924ebd87eb0fc62f9844",
   "Greatest::Bee Gees": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e0252038992fc6d7868f31d23b7",
   "Nothing But The Best::Frank Sinatra": "https://image-cdn-ak.spotifycdn.com/image/ab67616d00001e02c8ee4fcab2d1a23090c870d1",
-  "Bad::Michael Jackson": "https://is1-ssl.mzstatic.com/image/thumb/Music211/v4/d5/5f/28/d55f28f4-610c-ee81-dc16-a01cda46bbc4/886443546264.jpg/600x600bb.jpg",
   "Dawn FM::The Weeknd": "https://is1-ssl.mzstatic.com/image/thumb/Music116/v4/92/14/e3/9214e352-3322-3708-4903-cf5059c4985f/21UM1IM58861.rgb.jpg/600x600bb.jpg",
   "NEVER ENOUGH::Daniel Caesar": "https://image-cdn-fa.spotifycdn.com/image/ab67616d00001e027c68face1dc58127f3a7b1cc",
   "Into The Late Night::Larry June": "https://is1-ssl.mzstatic.com/image/thumb/Music115/v4/e9/94/3a/e9943a85-b58a-a2be-5c39-c7bcb7740a99/194690635373_cover.jpg/600x600bb.jpg",
+};
+
+// Artist cards use provider profile photos, kept separate from album artwork.
+const ARTIST_PROFILE_IMAGES: Partial<Record<string, string>> = {
+  "Aaron Neville": "https://cdn-images.dzcdn.net/images/artist/10c01d877096cd471707c06a20e3c0c6/1000x1000-000000-80-0-0.jpg",
+  "Arctic Monkeys": "https://cdn-images.dzcdn.net/images/artist/6c03e4c7c36800897fd468633286db24/1000x1000-000000-80-0-0.jpg",
+  "Bee Gees": "https://cdn-images.dzcdn.net/images/artist/29d26c02dc96fa51b1a2810f9954c65a/1000x1000-000000-80-0-0.jpg",
+  "Bill Evans": "https://cdn-images.dzcdn.net/images/artist/d54ea9ad0c566bf76f3f5cfb8cc14f8a/1000x1000-000000-80-0-0.jpg",
+  "Cardo Got Wings": "https://cdn-images.dzcdn.net/images/artist/f50c1bd46b431a537cc39ff20f49555c/1000x1000-000000-80-0-0.jpg",
+  "Clipse": "https://cdn-images.dzcdn.net/images/artist/6a565341d1cfad12ecd96daf460b63b4/1000x1000-000000-80-0-0.jpg",
+  "Curren$y": "https://cdn-images.dzcdn.net/images/artist/5e4bffd6fd84774118723e4813cd84c9/1000x1000-000000-80-0-0.jpg",
+  "Daniel Caesar": "https://cdn-images.dzcdn.net/images/artist/973809864ad1c52d8c61238662400089/1000x1000-000000-80-0-0.jpg",
+  "Donny Hathaway": "https://cdn-images.dzcdn.net/images/artist/a25512b5fe6625942faf198f3115985d/1000x1000-000000-80-0-0.jpg",
+  "Dr. Dre": "https://cdn-images.dzcdn.net/images/artist/5af98b093efb7b818e4e084621c76b85/1000x1000-000000-80-0-0.jpg",
+  Drake: "https://cdn-images.dzcdn.net/images/artist/70223888f501f4b843142e071abda364/1000x1000-000000-80-0-0.jpg",
+  "Frank Ocean": "https://cdn-images.dzcdn.net/images/artist/882155c08dc31d6464d6d580083c968c/1000x1000-000000-80-0-0.jpg",
+  "Frank Sinatra": "https://cdn-images.dzcdn.net/images/artist/e22ed29d34715f53323c6d190410a27c/1000x1000-000000-80-0-0.jpg",
+  "Freddie Gibbs": "https://cdn-images.dzcdn.net/images/artist/d6b8027630bf2c2cd179d56724eeaae2/1000x1000-000000-80-0-0.jpg",
+  "George Benson": "https://cdn-images.dzcdn.net/images/artist/94af08fe634678e2288766fbb6cb3cd1/1000x1000-000000-80-0-0.jpg",
+  "Green Day": "https://cdn-images.dzcdn.net/images/artist/690381cc69a21802b5d95b0460afb6a3/1000x1000-000000-80-0-0.jpg",
+  Griselda: "https://cdn-images.dzcdn.net/images/artist/13b3467185f657b23d6d311e00f6e8cc/1000x1000-000000-80-0-0.jpg",
+  "Haircuts for Men": "https://cdn-images.dzcdn.net/images/artist/6a288ed7ca8cab2a5a43256e0ba74906/1000x1000-000000-80-0-0.jpg",
+  "J. Cole": "https://cdn-images.dzcdn.net/images/artist/dc8d97f19855c8ea3f15ee6db784198e/1000x1000-000000-80-0-0.jpg",
+  "Jay-Z": "https://cdn-images.dzcdn.net/images/artist/a59aabd18e84d732ce3b9f6f5c4e5f50/1000x1000-000000-80-0-0.jpg",
+  Jeezy: "https://cdn-images.dzcdn.net/images/artist/de4c1f9aa7eb2240a74c085a58de9244/1000x1000-000000-80-0-0.jpg",
+  "John McLaughlin": "https://cdn-images.dzcdn.net/images/artist/a119adbadbe646448e20990dd18dd620/1000x1000-000000-80-0-0.jpg",
+  "Kanye West": "https://cdn-images.dzcdn.net/images/artist/bb76c2ee3b068726ab4c37b0aabdb57a/1000x1000-000000-80-0-0.jpg",
+  "Kendrick Lamar": "https://cdn-images.dzcdn.net/images/artist/be0a7c550567f4af0ed202d7235b74d6/1000x1000-000000-80-0-0.jpg",
+  "Larry June": "https://image-cdn-fa.spotifycdn.com/image/ab676161000051741c0b980410ff1016569fb371",
+  "Lupe Fiasco": "https://cdn-images.dzcdn.net/images/artist/f76f59a8a1786fd6a29fd69cbffd5a8f/1000x1000-000000-80-0-0.jpg",
+  "Marvin Gaye": "https://cdn-images.dzcdn.net/images/artist/149cf44d269d34d3277b97ea1b907366/1000x1000-000000-80-0-0.jpg",
+  "Metro Boomin": "https://cdn-images.dzcdn.net/images/artist/bc031b73f958987fa103031070be5c16/1000x1000-000000-80-0-0.jpg",
+  "Michael Jackson": "https://cdn-images.dzcdn.net/images/artist/97fae13b2b30e4aec2e8c9e0c7839d92/1000x1000-000000-80-0-0.jpg",
+  Miguel: "https://cdn-images.dzcdn.net/images/artist/b4eaa7598be58064836db4fbb8ec98c9/1000x1000-000000-80-0-0.jpg",
+  "Miles Davis Quintet": "https://cdn-images.dzcdn.net/images/artist/8d13c0527064ba50cf0d0873f4f574dc/1000x1000-000000-80-0-0.jpg",
+  "Mobb Deep": "https://cdn-images.dzcdn.net/images/artist/6091301866ae1bb1caa54a33a4033f23/1000x1000-000000-80-0-0.jpg",
+  Nas: "https://image-cdn-fa.spotifycdn.com/image/ab67616100005174153198caeef9e3bda92f9285",
+  OutKast: "https://cdn-images.dzcdn.net/images/artist/32b909447841adfe4fd4770b1c1530ed/1000x1000-000000-80-0-0.jpg",
+  "Payroll Giovanni": "https://cdn-images.dzcdn.net/images/artist/3fb9159fca21d5476e39ae4ef7dcbd92/1000x1000-000000-80-0-0.jpg",
+  "Pusha T": "https://image-cdn-ak.spotifycdn.com/image/ab67616100005174c5b88a3924d8318f25f20594",
+  Sade: "https://cdn-images.dzcdn.net/images/artist/61ef9f8e27a31325d45f8623fe3000c6/1000x1000-000000-80-0-0.jpg",
+  "Sergei Rachmaninoff": "https://cdn-images.dzcdn.net/images/artist/b404170c6b76b9a49093c7e1ea6dbc04/1000x1000-000000-80-0-0.jpg",
+  SiR: "https://image-cdn-fa.spotifycdn.com/image/ab676161000051748fad33ba0d5ff81d0c453ce9",
+  "Silk Sonic": "https://cdn-images.dzcdn.net/images/artist/ce6fbe2e1fe21d6d279062a86043cd36/1000x1000-000000-80-0-0.jpg",
+  "Tame Impala": "https://cdn-images.dzcdn.net/images/artist/879015e713cc6ad6ffaeec154c027505/1000x1000-000000-80-0-0.jpg",
+  "The Isley Brothers": "https://cdn-images.dzcdn.net/images/artist/472342bc2131ac40297824a85b1ab546/1000x1000-000000-80-0-0.jpg",
+  "The Stylistics": "https://image-cdn-ak.spotifycdn.com/image/ab67616100005174b9f252d9b49977cb924697a3",
+  "The Weeknd": "https://cdn-images.dzcdn.net/images/artist/581693b4724a7fcfa754455101e13a44/1000x1000-000000-80-0-0.jpg",
+  "Travis Scott": "https://cdn-images.dzcdn.net/images/artist/8d8316146026d7e6ce377e314536df62/1000x1000-000000-80-0-0.jpg",
+  "Yussef Kamaal": "https://cdn-images.dzcdn.net/images/artist/3c183d6c29d1371ed41ae03f24de6f75/1000x1000-000000-80-0-0.jpg",
+  "Zakir Hussain": "https://cdn-images.dzcdn.net/images/artist/32973d74077b5fc12a6bc4bcd7af4347/1000x1000-000000-80-0-0.jpg",
+  berlioz: "https://image-cdn-fa.spotifycdn.com/image/ab676161000051743a9ab7733c4e6f95251a806b",
 };
 
 // Static artwork keeps the library fast: no cover lookups happen during page load.
@@ -1231,37 +1275,33 @@ export function getAlbums(): AlbumCatalogEntry[] {
   return DEFAULT_ALBUMS;
 }
 
-// Get all unique artists from playlists
-export function getArtistsFromPlaylists(): {
+// Build the artist library from the album catalog so it remains available without playlists.
+export function getArtistsFromAlbums(): {
   id: string;
   name: string;
   image: string;
-  trackCount: number;
+  albumCount: number;
 }[] {
   const artistMap = new Map<
     string,
-    { id: string; name: string; image: string; trackCount: number }
+    { id: string; name: string; image: string; albumCount: number }
   >();
 
-  for (const playlist of DEFAULT_PLAYLISTS) {
-    for (const track of playlist.tracks) {
-      if (!artistMap.has(track.artist)) {
-        artistMap.set(track.artist, {
-          id: track.artist.toLowerCase().replace(/\s+/g, "-"),
-          name: track.artist,
-          image: track.albumArt,
-          trackCount: 1,
-        });
-      } else {
-        const artist = artistMap.get(track.artist);
-        if (artist) {
-          artist.trackCount++;
-        }
-      }
+  for (const album of DEFAULT_ALBUMS) {
+    const artist = artistMap.get(album.artist);
+    if (artist) {
+      artist.albumCount++;
+    } else {
+      artistMap.set(album.artist, {
+        id: album.artist.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, ""),
+        name: album.artist,
+        image: ARTIST_PROFILE_IMAGES[album.artist] ?? "",
+        albumCount: 1,
+      });
     }
   }
 
-  return Array.from(artistMap.values());
+  return Array.from(artistMap.values()).sort((a, b) => a.name.localeCompare(b.name));
 }
 
 // Get all songs from playlists
