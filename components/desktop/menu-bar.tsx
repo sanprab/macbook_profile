@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faApple } from "@fortawesome/free-brands-svg-icons";
 import { faWifi, faBatteryFull, faSliders } from "@fortawesome/free-solid-svg-icons";
 import type { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { Bluetooth, Moon, MoonStar, Search } from "lucide-react";
+import { Bluetooth, Moon, Search } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { AppleMenu } from "./apple-menu";
 import { BatteryMenu, WifiMenu, ControlCenterMenu } from "./status-menus";
@@ -177,11 +177,6 @@ export function MenuBar({
             <span>0 KB/s</span>
             <span>0 KB/s</span>
           </div>
-        </div>
-
-        <div className="hidden items-center gap-1 px-1 text-sm font-semibold text-black dark:text-white lg:flex">
-          <MoonStar className="h-4 w-4 fill-current" strokeWidth={2.25} />
-          <span>61°F</span>
         </div>
 
         <Bluetooth className="hidden h-4 w-4 text-black dark:text-white lg:block" />
